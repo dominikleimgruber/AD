@@ -6,7 +6,7 @@ public class Fibonacci {
 
     public int fiboRec1(final int n) {
         /*
-        Die Rekursion Basis wird auf den Wert 1 gesetzt, da bei lediglich dem Wert 0 ein StackOverflow entstehen würde.
+        Die Rekursionbasis wird auf den Wert 1 gesetzt, da bei lediglich dem Wert 0 ein StackOverflow entstehen würde.
         Da jedoch n = 0 ebenfalls eine Möglichkeit darstellt musste noch eine weitere Bedingung hinzugefügt werden.
          */
 
@@ -18,5 +18,5 @@ public class Fibonacci {
             return fiboRec1(n - 1) + fiboRec1(n - 2);
         }
     }
-    
+
 }
