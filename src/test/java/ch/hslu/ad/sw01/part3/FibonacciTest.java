@@ -20,4 +20,10 @@ class FibonacciTest {
     void testFiboRec1ValueResonable(){
         assertEquals(55, new Fibonacci().fiboRec1(10));
     }
+
+    @Test
+    void testFiboItrReasonable(){
+        assertEquals(55, new Fibonacci().fiboItr(10));
+    }
+
 }

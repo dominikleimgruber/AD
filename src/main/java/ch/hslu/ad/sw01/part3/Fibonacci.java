@@ -19,4 +19,27 @@ public class Fibonacci {
         }
     }
 
+ 
+    public int fiboItr( int n) {
+        int currentPosition = 0;
+        int previousPosition = 0;
+        int previousPreviousPosition = 0;
+
+        for(int i = 0; i < n; i++){
+
+            currentPosition = previousPosition + previousPreviousPosition;
+            previousPreviousPosition = previousPosition;
+            if (currentPosition != 0){
+                previousPosition = currentPosition;
+            }else{
+                previousPosition = 1;
+            }
+
+
+        }
+
+
+        return currentPosition;
+    }
+
 }
