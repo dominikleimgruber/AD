@@ -39,8 +39,4 @@ class FibonacciTest {
         assertEquals(0, new Fibonacci().fiboItr(0));
     }
 
-    @Test
-    void testFiboRec2Reasonable(){
-        assertEquals(5, new Fibonacci().fiboRec2(5));
-    }
 }
