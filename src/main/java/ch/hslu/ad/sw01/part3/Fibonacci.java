@@ -2,9 +2,6 @@ package ch.hslu.ad.sw01.part3;
 
 public class Fibonacci {
 
-
-    private int[] fiboNumbers;
-
     public long fiboRec1(final int n) {
         /*
         Die Rekursionbasis wird auf den Wert 1 gesetzt, da bei lediglich dem Wert 0 ein StackOverflow entstehen würde.
@@ -33,13 +30,13 @@ public class Fibonacci {
     if n = 2 currentPosition 1
 
      */
- 
+
     public long fiboItr(final int n) {
         long currentPosition = 0;
         long previousPosition = 0;
         long previousPreviousPosition = 1;
 
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
 
             currentPosition = previousPosition + previousPreviousPosition;
             previousPreviousPosition = previousPosition;
