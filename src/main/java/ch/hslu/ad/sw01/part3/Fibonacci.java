@@ -2,9 +2,10 @@ package ch.hslu.ad.sw01.part3;
 
 public class Fibonacci {
 
+
     private int[] fiboNumbers;
 
-    public int fiboRec1(final int n) {
+    public long fiboRec1(final int n) {
         /*
         Die Rekursionbasis wird auf den Wert 1 gesetzt, da bei lediglich dem Wert 0 ein StackOverflow entstehen würde.
         Da jedoch n = 0 ebenfalls eine Möglichkeit darstellt musste noch eine weitere Bedingung hinzugefügt werden.
@@ -19,22 +20,30 @@ public class Fibonacci {
         }
     }
 
+
+    /*
+    1,1,2,3,5,8,13 ...
+    previous + previousPrevious = currentPosition
+    previousPrevious = previous
+    previous  = currentPosition
+
+    whats the startvalue of currentPosition?
+    if n = 0 currentPosition should be 0
+    if n = 1 currentPosition 1
+    if n = 2 currentPosition 1
+
+     */
  
-    public int fiboItr( int n) {
-        int currentPosition = 0;
-        int previousPosition = 0;
-        int previousPreviousPosition = 0;
+    public long fiboItr(final int n) {
+        long currentPosition = 0;
+        long previousPosition = 0;
+        long previousPreviousPosition = 1;
 
         for(int i = 0; i < n; i++){
 
             currentPosition = previousPosition + previousPreviousPosition;
             previousPreviousPosition = previousPosition;
-            if (currentPosition != 0){
-                previousPosition = currentPosition;
-            }else{
-                previousPosition = 1;
-            }
-
+            previousPosition = currentPosition;
 
         }
 

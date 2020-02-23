@@ -1,10 +1,14 @@
 package ch.hslu.ad.sw01.part3;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FibonacciTest {
+
+    private static final Logger LOG = LogManager.getLogger(FibonacciTest.class);
 
     @Test
     void testFiboRec1Value1() {
@@ -18,12 +22,21 @@ class FibonacciTest {
 
     @Test
     void testFiboRec1ValueResonable(){
-        assertEquals(55, new Fibonacci().fiboRec1(10));
+        long startTime = System.currentTimeMillis();
+        assertEquals(12586269025l, new Fibonacci().fiboRec1(50));
+        LOG.info(System.currentTimeMillis() - startTime);
     }
 
     @Test
     void testFiboItrReasonable(){
-        assertEquals(55, new Fibonacci().fiboItr(10));
+        long startTime = System.currentTimeMillis();
+        assertEquals(12586269025l, new Fibonacci().fiboItr(50));
+        LOG.info(System.currentTimeMillis() - startTime);
+    }
+
+    @Test
+    void testFiboItrZero(){
+        assertEquals(0, new Fibonacci().fiboItr(0));
     }
 
 }
