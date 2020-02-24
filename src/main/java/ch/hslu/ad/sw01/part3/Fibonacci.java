@@ -22,19 +22,23 @@ public class Fibonacci {
 
     public long fiboRec2(final int n) {
         if (numbers == null) {
-            numbers = new long[n + 1];
-            numbers[0] = 0;
+            numbers = new long[n];
+            numbers[0] = 1;
         }
 
         if (n == 0) {
-            numbers[0] = 0;
+            return 0;
         } else if (n == 1) {
             numbers[1] = 1;
         } else {
             fiboRec2(n - 1);
-            numbers[n] = numbers[n - 1 ] + numbers[n - 2];
+            if (n != 2) {
+                numbers[n - 1] = numbers[n - 2] + numbers[n - 3];
+            }else{
+                numbers[n - 1] = numbers[n - 2];
+            }
         }
-        return numbers[n];
+        return numbers[n - 1];
     }
     /*
     1,1,2,3,5,8,13 ...
