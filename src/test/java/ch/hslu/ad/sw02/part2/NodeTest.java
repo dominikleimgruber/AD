@@ -24,7 +24,7 @@ class NodeTest {
         assertEquals("test2", test.getElement());
     }
 
-   
+
 
 
 }

@@ -26,7 +26,7 @@ class LinkedListTest {
     }
 
     @Test
-    void testGetAndDeleteReasonable(){
+    void testGetAndRemoveReasonable(){
         LinkedList<Allocation> list = new LinkedList<Allocation>();
         list.add(new Allocation(1024, 1024));
         Allocation alloc = new Allocation(0, 1024);
@@ -34,31 +34,31 @@ class LinkedListTest {
         Allocation alloc2 = new Allocation(2048, 1024);
         list.add(alloc2);
 
-        assertEquals(true, alloc.equals(list.getAndDelete(1)));
+        assertEquals(true, alloc.equals(list.getAndRemove(1)));
         assertEquals(true, list.contains(alloc2));
     }
 
     @Test
-    void testGetAndDeleteLast(){
+    void testGetAndRemoveLast(){
         LinkedList<Allocation> list = new LinkedList<Allocation>();
         list.add(new Allocation(1024, 1024));
         Allocation alloc = new Allocation(0, 1024);
         list.add(alloc);
-        assertEquals(1024, list.getAndDelete(1).getCapacity());
+        assertEquals(1024, list.getAndRemove(1).getCapacity());
     }
 
     @Test
-    void testGetAndDeleteMore(){
+    void testGetAndRemoveMore(){
         LinkedList<Allocation> list = new LinkedList<Allocation>();
         list.add(new Allocation(1024, 1024));
-        assertEquals(null, list.getAndDelete(7));
+        assertEquals(null, list.getAndRemove(7));
     }
 
     @Test
-    void testGetAndDeleteLess(){
+    void testGetAndRemoveLess(){
         LinkedList<Allocation> list = new LinkedList<Allocation>();
         list.add(new Allocation(1024, 1024));
-        assertEquals(null, list.getAndDelete(-7));
+        assertEquals(null, list.getAndRemove(-7));
     }
 
 }

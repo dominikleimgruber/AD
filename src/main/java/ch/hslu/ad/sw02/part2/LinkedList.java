@@ -19,8 +19,6 @@ public class LinkedList<T> {
     }
 
     public boolean contains(T element) {
-
-
         Node<T> temp = head;
         while (temp.getNextNode() != null) {
 
@@ -32,13 +30,7 @@ public class LinkedList<T> {
         return false;
     }
 
-    public T remove() {
-        T temp = head.getElement();
-        head = head.getNextNode();
-        return temp;
-    }
-
-    public T getAndDelete(final int n) {
+    public T getAndRemove(final int n) {
 
         T element = null;
         if (n <= size && n > 0) {
@@ -60,6 +52,10 @@ public class LinkedList<T> {
             head = head.getNextNode();
         }
         return element;
+    }
+
+    public ListIterator<T> iterator(){
+        return new ListIterator<>(head);
     }
 }
 
