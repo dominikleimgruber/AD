@@ -39,13 +39,16 @@ public class Queue<T> implements QueueInterface<T> {
 
         if (!isFull()) {
             queue[tail] = element;
+
             if (tail < queue.length - 1) {
                 tail++;
             } else {
                 tail = 0;
             }
+
             counter++;
             LOG.info(this);
+
         } else {
             throw new IllegalStateException("Queue is full.");
         }
@@ -54,13 +57,17 @@ public class Queue<T> implements QueueInterface<T> {
 
     @Override
     public T pop() {
+
         if (!isEmpty()) {
             T temp = (T) queue[head];
+            queue[head] = null;
+
             if (head < queue.length - 1) {
                 head++;
             } else {
                 head = 0;
             }
+
             counter--;
             LOG.info(this);
             return temp;
