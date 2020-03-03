@@ -23,7 +23,7 @@ class FibonacciTest {
     @Test
     void testFiboRec1ValueResonable(){
         long startTime = System.currentTimeMillis();
-        assertEquals(12586269025l, new Fibonacci().fiboRec1(50));
+        assertEquals(55l, new Fibonacci().fiboRec1(10));
         LOG.info(System.currentTimeMillis() - startTime);
     }
 
