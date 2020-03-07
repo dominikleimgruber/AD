@@ -56,9 +56,4 @@ class BinarySearchTreeTest {
         assertEquals(true, tree.contains("A"));
     }
 
-    @Test
-    void testGetSize(){
-
-    }
-
 }
