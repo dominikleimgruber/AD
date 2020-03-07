@@ -8,7 +8,6 @@ public class Node<T> {
     public Node(T element, Node nextNode) {
         this.nextNode = nextNode;
         this.element = element;
-
     }
 
     public Node<T> getNextNode() {
@@ -28,16 +27,16 @@ public class Node<T> {
     }
 
     @Override
-    public final  int hashCode() {
+    public final int hashCode() {
         return element.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj){
+        if (this == obj) {
             return true;
         }
-        if(!(obj instanceof Node)){
+        if (!(obj instanceof Node)) {
             return false;
         }
 

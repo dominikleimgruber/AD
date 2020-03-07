@@ -5,6 +5,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
+/**
+ * Implementation of a first-in first-out queue.
+ *
+ * @param <T> Generic parameter to use this class for every type of Object.
+ *
+ * @author Dominik Leimgruber
+ */
+
 public class Queue<T> implements QueueInterface<T> {
 
     private static final Logger LOG = LogManager.getLogger(Queue.class);

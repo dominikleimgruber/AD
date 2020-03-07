@@ -16,15 +16,15 @@ public class Stack<T> implements StackInterface<T> {
         return stackPointer;
     }
 
-    public int getSize(){
+    public int getSize() {
         return stack.length;
     }
 
     @Override
     public void push(T element) {
         if (!isFull()) {
-            stack[stackPointer] = element;
-            stackPointer++;
+            stack[stackPointer++] = element;
+
         } else {
             throw new StackOverflowError("limit of the stack already reached, last item needs to be removed first.");
         }

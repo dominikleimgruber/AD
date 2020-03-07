@@ -14,7 +14,7 @@ public class LinkedList<T> {
 
     public void add(T element) {
 
-        head = new Node<T>(element, head);
+        head = new Node<>(element, head);
         size++;
     }
 

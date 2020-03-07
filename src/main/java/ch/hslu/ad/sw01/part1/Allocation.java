@@ -2,7 +2,7 @@ package ch.hslu.ad.sw01.part1;
 
 import java.util.Objects;
 
-public final class Allocation implements Comparable<Allocation>{
+public final class Allocation implements Comparable<Allocation> {
 
     private final int startAddress;
     private final int capacity;
@@ -41,10 +41,9 @@ public final class Allocation implements Comparable<Allocation>{
 
     @Override
     public int compareTo(Allocation allocation) {
-        if (allocation != null){
+        if (allocation != null) {
             return Integer.compare(this.startAddress, allocation.startAddress);
-        }
-        else{
+        } else {
             return 1;
         }
     }
