@@ -1,4 +1,4 @@
-package ch.hslu.ad.sw03.Tree;
+package ch.hslu.ad.sw03.version1;
 
 public class Node<T> {
 

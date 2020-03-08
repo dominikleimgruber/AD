@@ -1,4 +1,4 @@
-package ch.hslu.ad.sw03.Tree;
+package ch.hslu.ad.sw03.version2;
 
 import ch.hslu.ad.sw03.version1.BinarySearchTree;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,7 @@ class BinarySearchTreeTest {
 
     @Test
     void testAdd() {
-        BinarySearchTree<String> tree = new BinarySearchTree<>();
+        ch.hslu.ad.sw03.version1.BinarySearchTree<String> tree = new ch.hslu.ad.sw03.version1.BinarySearchTree<>();
         tree.add("G"); //1
         tree.add("E"); //2
         tree.add("F"); //3
@@ -22,7 +22,7 @@ class BinarySearchTreeTest {
 
     @Test
     void testClear() {
-        BinarySearchTree<String> tree = new BinarySearchTree<>();
+        ch.hslu.ad.sw03.version1.BinarySearchTree<String> tree = new ch.hslu.ad.sw03.version1.BinarySearchTree<>();
         tree.add("G");
         tree.add("E");
         tree.add("F");
@@ -34,13 +34,13 @@ class BinarySearchTreeTest {
 
     @Test
     void testInorder(){
-        BinarySearchTree<String> tree = new BinarySearchTree<>();
+        ch.hslu.ad.sw03.version1.BinarySearchTree<String> tree = new ch.hslu.ad.sw03.version1.BinarySearchTree<>();
         tree.travers();
     }
 
     @Test
     void testContains() {
-        BinarySearchTree<String> tree = new BinarySearchTree<>();
+        ch.hslu.ad.sw03.version1.BinarySearchTree<String> tree = new BinarySearchTree<>();
         tree.add("G");
         tree.add("E");
         tree.add("F");
@@ -54,5 +54,4 @@ class BinarySearchTreeTest {
         tree.add("I");
         assertEquals(true, tree.contains("C"));
     }
-
 }
