@@ -1,7 +1,5 @@
 package ch.hslu.ad.sw03.version2;
 
-import ch.hslu.ad.sw03.version1.Node;
-import ch.hslu.ad.sw03.version1.Tree;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
