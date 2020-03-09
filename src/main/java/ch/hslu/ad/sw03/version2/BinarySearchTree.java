@@ -22,6 +22,13 @@ public class BinarySearchTree<T> implements Tree<T> {
             this.data = data;
             this.left = left;
             this.right = right;
+            this.key = data.hashCode();
+        }
+
+
+        @Override
+        public String toString() {
+            return "Node{Data=" + data + "}";
         }
 
     }
@@ -67,7 +74,7 @@ public class BinarySearchTree<T> implements Tree<T> {
         } while (child != null);
 
         Node node = new Node(element, null, null);
-        if (identifier < child.key) {
+        if (identifier < parent.key) {
             parent.left = node;
         } else {
             parent.right = node;
