@@ -1,7 +1,6 @@
 package ch.hslu.ad.sw03.version2;
 
-import ch.hslu.ad.sw03.version1.Node;
-import ch.hslu.ad.sw03.version1.Tree;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +22,12 @@ public class BinarySearchTree<T> implements Tree<T> {
             this.data = data;
             this.left = left;
             this.right = right;
+            this.key = data.hashCode();
+        }
+
+        @Override
+        public String toString() {
+            return "Node{Data=" + data+ "}";
         }
 
     }
@@ -68,7 +73,7 @@ public class BinarySearchTree<T> implements Tree<T> {
         } while (child != null);
 
         Node node = new Node(element, null, null);
-        if (identifier < child.key) {
+        if (identifier < parent.key) {
             parent.left = node;
         } else {
             parent.right = node;
@@ -103,6 +108,31 @@ public class BinarySearchTree<T> implements Tree<T> {
                 return identifier == temp.key && element.equals(temp.data);
             }
         }
+
+        return false;
+    }
+
+    public boolean remove(T element){
+
+        Node<T> parent = null;
+        Node<T> child = root;
+
+        if(root.left == null && root.right == null){
+            root = null;
+            return true;
+        }
+
+       do{
+            parent = child;
+            if(element.hashCode() > child.key){
+                child = child.right;
+            }else if(element.hashCode() < child.key){
+                child = child.right;
+            }else{
+
+            }
+
+        }while(child != null);
 
         return false;
     }

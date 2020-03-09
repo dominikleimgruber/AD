@@ -1,6 +1,5 @@
 package ch.hslu.ad.sw03.version2;
 
-import ch.hslu.ad.sw03.version1.BinarySearchTree;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +8,7 @@ class BinarySearchTreeTest {
 
     @Test
     void testAdd() {
-        ch.hslu.ad.sw03.version1.BinarySearchTree<String> tree = new ch.hslu.ad.sw03.version1.BinarySearchTree<>();
+        BinarySearchTree<String> tree = new BinarySearchTree<>();
         tree.add("G"); //1
         tree.add("E"); //2
         tree.add("F"); //3
@@ -22,7 +21,7 @@ class BinarySearchTreeTest {
 
     @Test
     void testClear() {
-        ch.hslu.ad.sw03.version1.BinarySearchTree<String> tree = new ch.hslu.ad.sw03.version1.BinarySearchTree<>();
+        BinarySearchTree<String> tree = new BinarySearchTree<>();
         tree.add("G");
         tree.add("E");
         tree.add("F");
@@ -34,13 +33,13 @@ class BinarySearchTreeTest {
 
     @Test
     void testInorder(){
-        ch.hslu.ad.sw03.version1.BinarySearchTree<String> tree = new ch.hslu.ad.sw03.version1.BinarySearchTree<>();
+        BinarySearchTree<String> tree = new BinarySearchTree<>();
         tree.travers();
     }
 
     @Test
     void testContains() {
-        ch.hslu.ad.sw03.version1.BinarySearchTree<String> tree = new BinarySearchTree<>();
+        BinarySearchTree<String> tree = new BinarySearchTree<>();
         tree.add("G");
         tree.add("E");
         tree.add("F");
