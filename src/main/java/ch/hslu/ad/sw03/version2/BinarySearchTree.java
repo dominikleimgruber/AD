@@ -4,21 +4,21 @@ package ch.hslu.ad.sw03.version2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class BinarySearchTree<T> implements Tree<T> {
+public final class BinarySearchTree<T> implements Tree<T> {
 
     private Node<T> root;
     private int size;
     private final static Logger LOG = LogManager.getLogger(BinarySearchTree.class);
 
 
-    private class Node<T> {
+    private final class Node<T> {
 
         private T data;
         private Node<T> left;
         private Node<T> right;
         private int key;
 
-        private Node(T data, Node<T> left, Node<T> right) {
+        private Node(T data) {
             this.data = data;
             this.left = left;
             this.right = right;
@@ -51,13 +51,13 @@ public class BinarySearchTree<T> implements Tree<T> {
     @Override
     public boolean add(T element) {
         if (root == null) {
-            root = new Node(element, null, null);
+            root = new Node(element);
             size++;
             return true;
         }
 
         Node child = root;
-        Node parent = child;
+        Node parent;
         int identifier = element.hashCode();
 
 
@@ -73,7 +73,7 @@ public class BinarySearchTree<T> implements Tree<T> {
 
         } while (child != null);
 
-        Node node = new Node(element, null, null);
+        Node node = new Node(element);
         if (identifier < parent.key) {
             parent.left = node;
         } else {
@@ -105,7 +105,8 @@ public class BinarySearchTree<T> implements Tree<T> {
                 LOG.info("go right");
                 temp = temp.right;
 
-            } else {
+            } else{
+
                 return identifier == temp.key && element.equals(temp.data);
             }
         }

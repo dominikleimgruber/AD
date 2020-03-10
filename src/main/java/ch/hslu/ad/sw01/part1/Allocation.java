@@ -22,7 +22,7 @@ public final class Allocation implements Comparable<Allocation> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.startAddress, this.capacity);
+        return Objects.hash(this.startAddress);
     }
 
     @Override
@@ -35,8 +35,7 @@ public final class Allocation implements Comparable<Allocation> {
         }
 
         Allocation that = (Allocation) obj;
-        return this.capacity == that.capacity && this.startAddress == that.startAddress;
-
+        return this.capacity == that.capacity;
     }
 
     @Override
@@ -46,5 +45,13 @@ public final class Allocation implements Comparable<Allocation> {
         } else {
             return 1;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Allocation{" +
+                "startAddress=" + startAddress +
+                ", capacity=" + capacity +
+                '}';
     }
 }
