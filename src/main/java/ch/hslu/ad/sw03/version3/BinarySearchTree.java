@@ -1,6 +1,5 @@
 package ch.hslu.ad.sw03.version3;
 
-import ch.hslu.ad.sw03.version2.BinarySearchTree;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +12,7 @@ import java.util.Comparator;
  */
 
 
-public class BinarySerchTree<T> implements Tree<T> {
+public class BinarySearchTree<T> implements Tree<T> {
 
     /**
      * Inner Node Klasse, in welcher die Datenobjekte gespeichert werden.
@@ -37,19 +36,19 @@ public class BinarySerchTree<T> implements Tree<T> {
         }
     }
 
-    private final static Logger LOG = LogManager.getLogger(BinarySearchTree.class);
+    private final static Logger LOG = LogManager.getLogger(ch.hslu.ad.sw03.version2.BinarySearchTree.class);
     private Node<T> root;
     private int size;
     private Comparator<T> comparator;
 
 
-    public BinarySerchTree(final Comparator<T> comparator) {
+    public BinarySearchTree(final Comparator<T> comparator) {
         this.root = null;
         this.size = 0;
         this.comparator = comparator;
     }
 
-    public BinarySerchTree() {
+    public BinarySearchTree() {
         this(null);
     }
 
@@ -68,6 +67,10 @@ public class BinarySerchTree<T> implements Tree<T> {
     @Override
     public boolean add(final T element) {
 
+        if (element == null) {
+            return false;
+        }
+
         if (root == null) {
             root = new Node(element);
             size++;
@@ -77,7 +80,9 @@ public class BinarySerchTree<T> implements Tree<T> {
         Node<T> node;
 
         if (comparator != null) {
+
             node = searchWithComparator(element);
+
             if (comparator.compare(node.data, element) > 0) {
                 node.left = new Node(element);
                 size++;
@@ -90,6 +95,7 @@ public class BinarySerchTree<T> implements Tree<T> {
                 return true;
             }
 
+            return false;
         }
 
         node = searchWithHash(element);
@@ -103,6 +109,7 @@ public class BinarySerchTree<T> implements Tree<T> {
             size++;
             return true;
         }
+
         return false;
     }
 
@@ -124,6 +131,11 @@ public class BinarySerchTree<T> implements Tree<T> {
      */
     @Override
     public boolean contains(final T element) {
+
+        if (element == null) {
+            return false;
+        }
+
         if (root != null) {
             if (comparator != null) {
                 return searchWithComparator(element).data.equals(element);
@@ -146,12 +158,15 @@ public class BinarySerchTree<T> implements Tree<T> {
             LOG.info(child);
             parent = child;
             compare = comparator.compare(child.data, element);
+
             if (compare > 0) {
                 LOG.info("go left");
                 child = child.left;
+
             } else if (compare < 0) {
                 LOG.info("go right");
                 child = child.right;
+
             } else {
                 return child;
             }
@@ -161,13 +176,16 @@ public class BinarySerchTree<T> implements Tree<T> {
 
     private Node<T> searchWithHash(final T element) {
 
+
         Node<T> parent = null;
         Node<T> child = root;
         int identifier = element.hashCode();
 
         while (child != null) {
+
             parent = child;
             LOG.info(child);
+
             if (identifier < child.key) {
                 LOG.info("go left");
                 child = child.left;
@@ -176,20 +194,24 @@ public class BinarySerchTree<T> implements Tree<T> {
                 LOG.info("go right");
                 child = child.right;
 
-            } else if (element.equals(child.data)) {
+            } else {
                 return child;
             }
         }
         return parent;
     }
 
-    public void travers() {
-        LOG.info("inorder");
-        inorder(root);
-        LOG.info("postorder");
-        postOrder(root);
-        LOG.info("preorder");
-        preOrder(root);
+
+    public void inorder() {
+        this.inorder(root);
+    }
+
+    public void preorder() {
+        this.preOrder(root);
+    }
+
+    public void postorder() {
+        this.postOrder(root);
     }
 
     private void inorder(final Node<T> node) {

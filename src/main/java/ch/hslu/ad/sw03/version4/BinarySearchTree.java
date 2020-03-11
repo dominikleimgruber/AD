@@ -94,6 +94,7 @@ public class BinarySearchTree<T> implements Tree<T> {
             }
         }
 
+
         node = searchWithHash(element);
         if (node.key > element.hashCode()) {
             node.left = new Node(element, node);
@@ -166,7 +167,7 @@ public class BinarySearchTree<T> implements Tree<T> {
 
     private boolean removeWithChildren(Node<T> toRemove) {
         Node<T> replace = toRemove.right;
-        if(replace.left == null){
+        if (replace.left == null) {
             toRemove.right = replace.right;
             replace.right.parent = toRemove;
             toRemove.data = replace.data;
@@ -222,16 +223,18 @@ public class BinarySearchTree<T> implements Tree<T> {
         int compare;
 
         while (child != null) {
-
             LOG.info(child);
             parent = child;
             compare = comparator.compare(child.data, element);
+
             if (compare > 0) {
                 LOG.info("go left");
                 child = child.left;
+
             } else if (compare < 0) {
                 LOG.info("go right");
                 child = child.right;
+
             } else {
                 return child;
             }
@@ -248,6 +251,7 @@ public class BinarySearchTree<T> implements Tree<T> {
         while (child != null) {
             parent = child;
             LOG.info(child);
+
             if (identifier < child.key) {
                 LOG.info("go left");
                 child = child.left;
@@ -263,16 +267,19 @@ public class BinarySearchTree<T> implements Tree<T> {
         return parent;
     }
 
-    public void travers() {
-        LOG.info("inorder");
-        inorder(root);
-        LOG.info("postorder");
-        postOrder(root);
-        LOG.info("preorder");
-        preOrder(root);
+    public void inorder(){
+        this.inorder(root);
+    }
+
+    public void preorder(){
+        this.preOrder(root);
+    }
+    public void postorder(){
+        this.postOrder(root);
     }
 
     private void inorder(final Node<T> node) {
+
         if (node != null) {
             inorder(node.left);
             LOG.info(node);

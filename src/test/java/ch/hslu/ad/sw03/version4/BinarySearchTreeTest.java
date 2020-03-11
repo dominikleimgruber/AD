@@ -56,7 +56,7 @@ class BinarySearchTreeTest {
         Allocation alloc1 = new Allocation(16284, 1024);
         tree.add(alloc1); //10
         tree.remove(alloc1);
-        tree.travers();
+        tree.preorder();
         assertEquals(9, tree.getSize());
     }
 
@@ -75,7 +75,7 @@ class BinarySearchTreeTest {
         tree.add(new Allocation(10240, 1024)); //9
         tree.add(new Allocation(16284, 1024)); //10
         tree.remove(alloc1);
-        tree.travers();
+        tree.preorder();
         assertEquals(9, tree.getSize());
     }
 
@@ -94,7 +94,7 @@ class BinarySearchTreeTest {
         tree.add(new Allocation(10240, 1024)); //9
         tree.add(new Allocation(16284, 1024)); //10
         tree.remove(alloc1);
-        tree.travers();
+        tree.preorder();
         assertEquals(9, tree.getSize());
     }
 
@@ -125,7 +125,7 @@ class BinarySearchTreeTest {
     }
 
     @Test
-    void testTravers() {
+    void testInorder() {
         BinarySearchTree<Allocation> tree = new BinarySearchTree<>((alloc1, alloc2) -> alloc1.compareTo(alloc2));
         tree.add(new Allocation(8192, 1024));
         tree.add(new Allocation(4096, 1024));
@@ -135,6 +135,35 @@ class BinarySearchTreeTest {
         tree.add(new Allocation(1024, 1024));
         tree.add(new Allocation(11264, 1024));
         tree.add(new Allocation(9216, 1024));
-        tree.travers();
+        tree.inorder();
     }
+
+    @Test
+    void testPreorder() {
+        BinarySearchTree<Allocation> tree = new BinarySearchTree<>((alloc1, alloc2) -> alloc1.compareTo(alloc2));
+        tree.add(new Allocation(8192, 1024));
+        tree.add(new Allocation(4096, 1024));
+        tree.add(new Allocation(5120, 1024));
+        tree.add(new Allocation(2048, 1024));
+        tree.add(new Allocation(3072, 1024));
+        tree.add(new Allocation(1024, 1024));
+        tree.add(new Allocation(11264, 1024));
+        tree.add(new Allocation(9216, 1024));
+        tree.preorder();
+    }
+
+    @Test
+    void testPostorder() {
+        BinarySearchTree<Allocation> tree = new BinarySearchTree<>((alloc1, alloc2) -> alloc1.compareTo(alloc2));
+        tree.add(new Allocation(8192, 1024));
+        tree.add(new Allocation(4096, 1024));
+        tree.add(new Allocation(5120, 1024));
+        tree.add(new Allocation(2048, 1024));
+        tree.add(new Allocation(3072, 1024));
+        tree.add(new Allocation(1024, 1024));
+        tree.add(new Allocation(11264, 1024));
+        tree.add(new Allocation(9216, 1024));
+        tree.postorder();
+    }
+
 }
