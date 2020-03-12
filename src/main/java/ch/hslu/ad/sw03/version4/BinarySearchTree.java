@@ -27,7 +27,7 @@ public class BinarySearchTree<T> implements Tree<T> {
         private Node<T> left;
         private int key;
 
-        public Node(final T data, final Node<T> parent) {
+        public Node(final T data, Node<T> parent) {
             this.data = data;
             this.parent = parent;
             this.key = data.hashCode();
@@ -39,8 +39,7 @@ public class BinarySearchTree<T> implements Tree<T> {
         }
     }
 
-    private final static Logger LOG = LogManager.getLogger(BinarySearchTree.class);
-
+    private final static Logger LOG = LogManager.getLogger(ch.hslu.ad.sw03.version2.BinarySearchTree.class);
     private Node<T> root;
     private int size;
     private Comparator<T> comparator;
@@ -71,6 +70,10 @@ public class BinarySearchTree<T> implements Tree<T> {
     @Override
     public boolean add(final T element) {
 
+        if (element == null) {
+            return false;
+        }
+
         if (root == null) {
             root = new Node(element, null);
             size++;
@@ -80,20 +83,23 @@ public class BinarySearchTree<T> implements Tree<T> {
         Node<T> node;
 
         if (comparator != null) {
+
             node = searchWithComparator(element);
+
             if (comparator.compare(node.data, element) > 0) {
                 node.left = new Node(element, node);
                 size++;
                 return true;
-            } else if (comparator.compare(node.data, element) < 0) {
+            }
+
+            if (comparator.compare(node.data, element) < 0) {
                 node.right = new Node(element, node);
                 size++;
                 return true;
-            } else {
-                return false;
             }
-        }
 
+            return false;
+        }
 
         node = searchWithHash(element);
         if (node.key > element.hashCode()) {
@@ -105,6 +111,40 @@ public class BinarySearchTree<T> implements Tree<T> {
             node.right = new Node(element, node);
             size++;
             return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Löscht die komplette Datenstruktur.
+     */
+    @Override
+    public void clear() {
+        root = null;
+        size = 0;
+    }
+
+
+    /**
+     * Methode zur Überprüfung ob ein bestimmtes Element in der Datenstruktur vorhanden ist.
+     *
+     * @param element Zu überprüfendes Element.
+     * @return {@code true} oder {@code false}
+     */
+    @Override
+    public boolean contains(final T element) {
+
+        if (element == null) {
+            return false;
+        }
+
+        if (root != null) {
+            if (comparator != null) {
+                return searchWithComparator(element).data.equals(element);
+            } else {
+                return searchWithHash(element).data.equals(element);
+            }
         }
         return false;
     }
@@ -169,50 +209,28 @@ public class BinarySearchTree<T> implements Tree<T> {
         Node<T> replace = toRemove.right;
         if (replace.left == null) {
             toRemove.right = replace.right;
-            replace.right.parent = toRemove;
             toRemove.data = replace.data;
             toRemove.key = replace.key;
+            if (replace.right != null) {
+                replace.right.parent = toRemove;
+            }
             size--;
             return true;
         }
+
         while (replace.left != null) {
             replace = replace.left;
         }
         replace.parent.left = replace.right;
-        replace.right.parent = replace.parent;
-
+        if (replace.right != null) {
+            replace.right.parent = replace.parent;
+        }
         toRemove.data = replace.data;
         toRemove.key = replace.key;
+
+
         size--;
         return true;
-    }
-
-    /**
-     * Löscht die komplette Datenstruktur.
-     */
-    @Override
-    public void clear() {
-        root = null;
-        size = 0;
-    }
-
-
-    /**
-     * Methode zur Überprüfung ob ein bestimmtes Element in der Datenstruktur vorhanden ist.
-     *
-     * @param element Zu überprüfendes Element.
-     * @return {@code true} oder {@code false}
-     */
-    @Override
-    public boolean contains(final T element) {
-        if (root != null) {
-            if (comparator != null) {
-                return searchWithComparator(element).data.equals(element);
-            } else {
-                return searchWithHash(element).data.equals(element);
-            }
-        }
-        return false;
     }
 
 
@@ -223,6 +241,7 @@ public class BinarySearchTree<T> implements Tree<T> {
         int compare;
 
         while (child != null) {
+
             LOG.info(child);
             parent = child;
             compare = comparator.compare(child.data, element);
@@ -244,11 +263,13 @@ public class BinarySearchTree<T> implements Tree<T> {
 
     private Node<T> searchWithHash(final T element) {
 
+
         Node<T> parent = null;
         Node<T> child = root;
-        final int identifier = element.hashCode();
+        int identifier = element.hashCode();
 
         while (child != null) {
+
             parent = child;
             LOG.info(child);
 
@@ -267,19 +288,20 @@ public class BinarySearchTree<T> implements Tree<T> {
         return parent;
     }
 
-    public void inorder(){
+
+    public void inorder() {
         this.inorder(root);
     }
 
-    public void preorder(){
+    public void preorder() {
         this.preOrder(root);
     }
-    public void postorder(){
+
+    public void postorder() {
         this.postOrder(root);
     }
 
     private void inorder(final Node<T> node) {
-
         if (node != null) {
             inorder(node.left);
             LOG.info(node);

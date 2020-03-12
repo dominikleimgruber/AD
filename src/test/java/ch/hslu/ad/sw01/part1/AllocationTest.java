@@ -45,6 +45,6 @@ class AllocationTest {
 
     @Test
     void testEqualsVerifier() {
-        EqualsVerifier.forClass(Allocation.class).verify();
+        EqualsVerifier.forClass(Allocation.class).withIgnoredFields("capacity").verify();
     }
 }

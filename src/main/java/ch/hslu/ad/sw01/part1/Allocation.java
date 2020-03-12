@@ -35,7 +35,7 @@ public final class Allocation implements Comparable<Allocation> {
         }
 
         Allocation that = (Allocation) obj;
-        return this.capacity == that.capacity;
+        return this.startAddress == that.startAddress;
     }
 
     @Override
