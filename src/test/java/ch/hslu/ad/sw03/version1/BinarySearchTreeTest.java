@@ -1,6 +1,5 @@
-package ch.hslu.ad.sw03.Tree;
+package ch.hslu.ad.sw03.version1;
 
-import ch.hslu.ad.sw03.version1.BinarySearchTree;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -8,6 +8,7 @@ public interface Tree<T> {
 
     /**
      * Methode um ein Datenelement einer Tree-Datenstruktur hinzuzufügen.
+     *
      * @param element Generischer Datentyp
      * @return {@code true} oder {@code false} zur Aussage, ob das Objekt hinzugefügt wurde oder nicht.
      */
@@ -20,6 +21,7 @@ public interface Tree<T> {
 
     /**
      * Methode zur Abfrage ob ein Objekt in der Datenstruktur vorhanden ist.
+     *
      * @param element Generischer Datentyp
      * @return {@code true} oder {@code false} zur Aussage, ob das Objekt enthalten ist.
      */
