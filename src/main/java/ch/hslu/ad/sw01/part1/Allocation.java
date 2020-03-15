@@ -41,7 +41,7 @@ public final class Allocation implements Comparable<Allocation> {
     @Override
     public int compareTo(Allocation allocation) {
         if (allocation != null) {
-            return Integer.compare(this.startAddress, allocation.startAddress);
+            return Integer.compare(this.capacity, allocation.capacity);
         } else {
             return 1;
         }
