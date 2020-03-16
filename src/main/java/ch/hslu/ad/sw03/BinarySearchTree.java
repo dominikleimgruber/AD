@@ -1,4 +1,4 @@
-package ch.hslu.ad.sw03.version5;
+package ch.hslu.ad.sw03;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

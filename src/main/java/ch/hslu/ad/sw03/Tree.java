@@ -1,5 +1,4 @@
-package ch.hslu.ad.sw03.version3;
-
+package ch.hslu.ad.sw03;
 
 /**
  * Interface zur Definition der wichtigsten Methoden zur Implementation einer Tree-Datenstruktur.

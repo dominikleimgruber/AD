@@ -1,9 +1,10 @@
-package ch.hslu.ad.sw03.version5;
+package ch.hslu.ad.sw03;
 
 import ch.hslu.ad.sw01.part1.Allocation;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BinarySearchTreeTest {
 
