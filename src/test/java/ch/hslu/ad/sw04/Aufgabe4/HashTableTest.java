@@ -55,12 +55,12 @@ class HashTableTest {
         for (int i = 0; i < 10; i++) {
             table.add(new Allocation((1000) * (i + 1), 1024));
         }
-        table.remove(new Allocation(5000, 2048));
-        assertEquals("HashTable{table=[Node{data=Allocation{startAddress=10000, capacity=1024}\n" +
-                "next=Node{data=Allocation{startAddress=9000, capacity=1024}\n" +
+        table.remove(new Allocation(10000, 2048));
+        assertEquals("HashTable{table=[Node{data=Allocation{startAddress=9000, capacity=1024}\n" +
                 "next=Node{data=Allocation{startAddress=8000, capacity=1024}\n" +
                 "next=Node{data=Allocation{startAddress=7000, capacity=1024}\n" +
                 "next=Node{data=Allocation{startAddress=6000, capacity=1024}\n" +
+                "next=Node{data=Allocation{startAddress=5000, capacity=1024}\n" +
                 "next=Node{data=Allocation{startAddress=4000, capacity=1024}\n" +
                 "next=Node{data=Allocation{startAddress=3000, capacity=1024}\n" +
                 "next=Node{data=Allocation{startAddress=2000, capacity=1024}\n" +

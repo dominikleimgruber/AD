@@ -12,12 +12,10 @@ public class HashTable<T> implements Table<T> {
     private class Node<E> {
         private Node<E> next;
         private E data;
-        private int index;
 
         public Node(final E data, final Node<E> next, final int index) {
             this.next = next;
             this.data = data;
-            this.index = index;
         }
 
         @Override
@@ -48,11 +46,17 @@ public class HashTable<T> implements Table<T> {
         if (element.equals(node.data)) {
             return false;
         }
+
+        int index = getIndex(element);
         node.data = element;
-        node.next = table[node.index];
-        table[node.index] = node;
+        node.next = table[index];
+        table[index] = node;
         size++;
         return true;
+    }
+
+    private int getIndex(final T element) {
+        return Math.abs(element.hashCode()) % table.length;
     }
 
     @Override
@@ -63,8 +67,10 @@ public class HashTable<T> implements Table<T> {
     @Override
     public boolean remove(final T element) {
         Node<T> node = search(element);
+        int index = getIndex(element);
+
         if (element.equals(node.data)) {
-            table[node.index] = node.next;
+            table[index] = node.next;
             return true;
         }
         if (node.data == null) {
@@ -79,8 +85,8 @@ public class HashTable<T> implements Table<T> {
         int index = Math.abs(element.hashCode()) % table.length;
         Node<T> node = table[index];
         Node<T> previous = node;
+        
         while (node != null) {
-
             if (element.equals(node.data)) {
                 return previous;
             }
