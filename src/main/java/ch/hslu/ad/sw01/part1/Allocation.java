@@ -22,7 +22,7 @@ public final class Allocation implements Comparable<Allocation> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.startAddress);
+        return this.startAddress;
     }
 
     @Override

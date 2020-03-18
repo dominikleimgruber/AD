@@ -2,12 +2,12 @@ package ch.hslu.ad.sw02.part3;
 
 import java.util.EmptyStackException;
 
-public class Stack<T> implements StackInterface<T> {
+public class MyStack<T> implements StackInterface<T> {
 
     private Object[] stack;
     private int stackPointer;
 
-    public Stack(final int size) {
+    public MyStack(final int size) {
         stack = new Object[size];
         stackPointer = 0;
     }
