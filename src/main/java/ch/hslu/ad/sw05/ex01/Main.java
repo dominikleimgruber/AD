@@ -18,7 +18,7 @@ public class Main {
         List<Thread> threads = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             int diameter = random.nextInt(31) + 20;
-            int xPosition = random.nextInt(601 - (diameter / 2)) + (diameter / 2);
+            int xPosition = random.nextInt((601 - (diameter))) + (diameter);
             int yPosition = random.nextInt(101) + (diameter / 2);
             Ball ball = new Ball(diameter, xPosition, yPosition, colors[random.nextInt(6)]);
             balls.add(ball);
