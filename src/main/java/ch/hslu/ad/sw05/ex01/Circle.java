@@ -23,7 +23,7 @@ import java.awt.geom.Ellipse2D;
  * @author Michael Kölling and David J. Barnes
  * @version 2016.02.29
  */
-public class Circle implements Runnable {
+public class Circle {
 
     private int diameter;
     private int xPosition;
@@ -69,6 +69,15 @@ public class Circle implements Runnable {
      */
     public int getY() {
         return yPosition;
+    }
+
+    /**
+     * Returns diameter of the circle
+     *
+     * @return diameter of the circle
+     */
+    public int getDiameter() {
+        return diameter;
     }
 
     /**
@@ -201,10 +210,6 @@ public class Circle implements Runnable {
         draw();
     }
 
-    @Override
-    public void run() {
-       Circle cr = new Circle()
-    }
 
     /**
      * Draw the circle with current specifications on screen.
