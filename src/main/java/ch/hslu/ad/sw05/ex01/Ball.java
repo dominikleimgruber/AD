@@ -1,6 +1,8 @@
 package ch.hslu.ad.sw05.ex01;
 
 
+import java.util.Random;
+
 public class Ball extends Circle implements Runnable {
 
     public Ball(final int diameter, final int xPosition, final int yPosition, final String color) {
@@ -13,9 +15,11 @@ public class Ball extends Circle implements Runnable {
     public void run() {
 
         Canvas canvas = Canvas.getCanvas();
-
+        Random random = new Random();
         while (getY() <= (canvas.getHeight() - getDiameter())) {
-            moveDown();
+
+
+           moveDown();
             try {
                 Thread.sleep((long) (Math.random() * 1000));
             } catch (InterruptedException e) {
