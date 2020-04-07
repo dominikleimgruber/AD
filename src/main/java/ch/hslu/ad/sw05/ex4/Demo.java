@@ -13,6 +13,8 @@ public class Demo {
         t2.start();
         t3.start();
 
+        t3.interrupt();
+
     }
 
 

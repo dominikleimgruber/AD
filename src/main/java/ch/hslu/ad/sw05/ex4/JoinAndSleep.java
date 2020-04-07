@@ -19,7 +19,6 @@ public class JoinAndSleep implements Runnable {
     @Override
     public void run() {
 
-
         LOG.info("Start task in Thread: {} ", Thread.currentThread().getName());
         if(t != null){
             try {

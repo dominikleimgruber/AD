@@ -10,3 +10,4 @@
 /.apt_generated_tests/
 /bin/
 .DS_Store
+log4j2.xml
