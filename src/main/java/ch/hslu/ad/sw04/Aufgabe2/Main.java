@@ -34,24 +34,24 @@ public class Main {
 
         MyStack<String> myStack = new MyStack<>(100000000);
         long startMyStack = System.currentTimeMillis();
-        for (int i = 0; i < array.length; i++) {
-            myStack.push(array[i]);
+        for (String item : array) {
+            myStack.push(item);
         }
         long endMyStack = System.currentTimeMillis();
         LOG.info("My Stack: " + (endMyStack - startMyStack));
 
         Stack<String> javaStack = new Stack<>();
         long startStack = System.currentTimeMillis();
-        for (int i = 0; i < array.length; i++) {
-            javaStack.push(array[i]);
+        for (String value : array) {
+            javaStack.push(value);
         }
         long endStack = System.currentTimeMillis();
         LOG.info("Java Stack: " + (endStack - startStack));
 
         Deque<String> deque = new ArrayDeque<>(100000000);
         long startDeque = System.currentTimeMillis();
-        for (int i = 0; i < array.length; i++) {
-            deque.push(array[i]);
+        for (String s : array) {
+            deque.push(s);
         }
         long endDeque = System.currentTimeMillis();
         LOG.info("Java Deque: " + (endDeque - startDeque));
