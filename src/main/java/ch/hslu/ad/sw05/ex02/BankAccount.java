@@ -20,6 +20,7 @@ package ch.hslu.ad.sw05.ex02;
  */
 public final class BankAccount {
 
+    private final Object LOCK = new Object();
     private int balance;
 
     /**
@@ -54,7 +55,7 @@ public final class BankAccount {
      */
     public void deposite(final int amount) {
 
-        synchronized (this) {
+        synchronized (LOCK) {
             this.balance += amount;
         }
 
@@ -67,7 +68,7 @@ public final class BankAccount {
      * @param amount zu überweisender Betrag.
      */
     public void transfer(final BankAccount target, final int amount) {
-        synchronized (this) {
+        synchronized (LOCK) {
             this.balance -= amount;
         }
 

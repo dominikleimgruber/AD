@@ -1,9 +1,12 @@
 package ch.hslu.ad.sw05.ex01;
 
 
-import java.util.Random;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Ball extends Circle implements Runnable {
+
+    private static final Logger LOG = LogManager.getLogger(Ball.class);
 
     public Ball(final int diameter, final int xPosition, final int yPosition, final String color) {
 
@@ -15,15 +18,14 @@ public class Ball extends Circle implements Runnable {
     public void run() {
 
         Canvas canvas = Canvas.getCanvas();
-        Random random = new Random();
+        long speed = (long)(Math.random() * 1000);
         while (getY() <= (canvas.getHeight() - getDiameter())) {
-
 
            moveDown();
             try {
-                Thread.sleep((long) (Math.random() * 1000));
+                Thread.sleep(speed);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOG.info(e);
             }
         }
 
@@ -32,7 +34,7 @@ public class Ball extends Circle implements Runnable {
             try {
                 Thread.sleep((long) (Math.random() * 100));
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOG.info(e);
             }
         }
     }

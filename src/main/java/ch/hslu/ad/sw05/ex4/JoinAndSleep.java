@@ -4,12 +4,12 @@ package ch.hslu.ad.sw05.ex4;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class JoinAndSleep implements Runnable {
+public final class JoinAndSleep implements Runnable {
 
 
     private static final Logger LOG = LogManager.getLogger(JoinAndSleep.class);
-    private Thread t;
-    private int sleepTime;
+    private final Thread t;
+    private final int sleepTime;
 
     public JoinAndSleep(final Thread t, final int sleepTime) {
         this.t = t;
@@ -33,6 +33,6 @@ public class JoinAndSleep implements Runnable {
         } catch (InterruptedException e) {
             LOG.info(e);
         }
-        LOG.info("End task in Thread: {} ", Thread.currentThread().getName());
+        LOG.info("End task in: {} ", Thread.currentThread().getName());
     }
 }
