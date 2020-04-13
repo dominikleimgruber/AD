@@ -20,11 +20,13 @@ public final class JoinAndSleep implements Runnable {
     public void run() {
 
         LOG.info("Start task in Thread: {} ", Thread.currentThread().getName());
+
         if(t != null){
             try {
                 t.join();
             } catch (InterruptedException e) {
-               LOG.info(e);
+                LOG.info("{} was interrupted", Thread.currentThread().getName());
+                return;
             }
         }
 
@@ -32,6 +34,7 @@ public final class JoinAndSleep implements Runnable {
             Thread.sleep(sleepTime);
         } catch (InterruptedException e) {
             LOG.info(e);
+            return;
         }
         LOG.info("End task in: {} ", Thread.currentThread().getName());
     }

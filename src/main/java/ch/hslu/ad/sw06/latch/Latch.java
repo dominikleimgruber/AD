@@ -15,8 +15,6 @@
  */
 package ch.hslu.ad.sw06.latch;
 
-import java.util.concurrent.Semaphore;
-
 /**
  * Eine Synchronisationshilfe, die es ermöglicht, einen oder mehrere Threads warten zu lassen, bis
  * diese durch andere Threads aufgeweckt werden. Latches sperren so lange, bis sie einmal ausgelöst
@@ -25,10 +23,12 @@ import java.util.concurrent.Semaphore;
 public class Latch implements Synch {
 
     private boolean sema = true;
+    private static final Object LOCK = new Object();
+
 
     @Override
     public void acquire() throws InterruptedException {
-        synchronized (this) {
+        synchronized (LOCK) {
             while (sema) {
                 this.wait();
             }
@@ -37,7 +37,7 @@ public class Latch implements Synch {
 
     @Override
     public void release() {
-        synchronized (this) {
+        synchronized (LOCK) {
             this.sema = false;
             this.notifyAll();
         }
