@@ -1,0 +1,10 @@
+a)
+    1) Der Semaphor scheint fair zu sein. Wie immer ist es natürlich ein Rennen der Threads, wer zuerst den Lock erhält
+       und dadurch aus der while-Schleife kommen kann wird als nächstes abgearbeitet. Zusätzlich kann mit dem
+       Initialwert der Sematphore bestummen werden, wie viele Threads zur selben zeit den kritischen Abschnitt passieren
+       dürfen.
+    2) Kein Thread muss ewig warten bis er den kritischen Abschnitt passieren darf.
+    3)
+b)
+    1)
+    2)

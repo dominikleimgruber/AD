@@ -50,7 +50,7 @@ public final class RaceHorse implements Runnable {
             LOG.info("Rennpferd " + runThread.getName() + " laeuft los...");
             Thread.sleep(random.nextInt(3000));
         } catch (InterruptedException ex) {
-            LOG.debug("Race was interrupted by the race director");
+            LOG.debug("{} stopped. Race was interrupted by the race director", runThread.getName());
             return;
         }
         LOG.info("Rennpferd " + runThread.getName() + " ist im Ziel.");

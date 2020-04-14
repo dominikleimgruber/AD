@@ -23,23 +23,23 @@ package ch.hslu.ad.sw06.latch;
 public class Latch implements Synch {
 
     private boolean sema = true;
-    private static final Object LOCK = new Object();
+    private final Object lock = new Object();
 
 
     @Override
     public void acquire() throws InterruptedException {
-        synchronized (LOCK) {
+        synchronized (lock) {
             while (sema) {
-                this.wait();
+                lock.wait();
             }
         }
     }
 
     @Override
     public void release() {
-        synchronized (LOCK) {
+        synchronized (lock) {
             this.sema = false;
-            this.notifyAll();
+            lock.notifyAll();
         }
     }
 }
