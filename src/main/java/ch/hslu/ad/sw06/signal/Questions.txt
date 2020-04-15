@@ -4,7 +4,9 @@ a)
        Initialwert der Sematphore bestummen werden, wie viele Threads zur selben zeit den kritischen Abschnitt passieren
        dürfen.
     2) Kein Thread muss ewig warten bis er den kritischen Abschnitt passieren darf.
-    3)
+    3) Momentan wird zufällig gewählt, welcher Thread als nächstes den kritischen Bereich abarbeiten darf. Die kann noch
+       verbessert werden.
 b)
-    1)
-    2)
+    1) Das Semaphor ist ein schwaches Semaphor und könnte durch ein starkes Semaphor (mit einer FIFO-Queue) ersetzt
+       werden.
+    2) es wird eine Thread-sichere Queue benötigt.

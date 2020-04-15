@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 public final class DemoSema {
 
     private static final Logger LOG = LogManager.getLogger(DemoSema.class);
-    private static Semaphore sema = new Semaphore(3);
+    private static Semaphore sema = new Semaphore(3, 4);
 
     /**
      * Privater Konstruktor.

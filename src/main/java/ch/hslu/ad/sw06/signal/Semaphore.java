@@ -22,39 +22,44 @@ package ch.hslu.ad.sw06.signal;
 public final class Semaphore {
 
     private int sema; // Semaphorenzähler
+    private int limit; // max Value of sema
     private int count; // Anzahl der wartenden Threads.
 
     /**
-     * Erzeugt ein Semaphore mit 0 Passiersignalen.
+     * Erzeugt ein Semaphore mit 0 Passiersignalen. Maximale ein Passiersignal möglich.
      */
     public Semaphore() {
-        this(0);
+        this(0, 1);
     }
 
     /**
-     * Erzeugt ein Semaphore mit einem Initalwert für den Semaphorenzähler.
+     * Erzeugt ein Semaphore mit einem Initalwert für den Semaphorenzähler. Der Initialwert wird ebenfalls als Limit für
+     * die Semaphore festgelegt.
      *
-     * @param permits Anzahl Passiersignale zur Initialisierung.
+     * @param permits Anzahl Passiersignale zur Initialisierung. Ebenfalls maximale Anazahl Passiersignale.
      * @throws IllegalArgumentException wenn der Initalwert negativ ist.
      */
     public Semaphore(final int permits) throws IllegalArgumentException {
-        if (permits < 0) {
-            throw new IllegalArgumentException(permits + " < 0");
-        }
-        sema = permits;
-        count = 0;
+
+        this(permits, permits);
     }
 
     /**
      * Erzeugt ein nach oben begrenztes Semaphore.
      *
      * @param permits Anzahl Passiersignale zur Initialisierung.
-     * @param limit maximale Anzahl der Passiersignale.
+     * @param limit   maximale Anzahl der Passiersignale.
      * @throws IllegalArgumentException wenn Argumente ungültige Werte besitzen.
      */
     public Semaphore(final int permits, final int limit) throws IllegalArgumentException {
-        this(0);
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (permits < 0 || permits > limit) {
+            throw new IllegalArgumentException(permits + " < 0");
+        }
+        this.sema = permits;
+        this.limit = limit;
+        this.count = 0;
+
+
     }
 
     /**
@@ -63,15 +68,23 @@ public final class Semaphore {
      * Zähler null ist wird der Aufrufer blockiert.
      *
      * @throws InterruptedException falls das Warten unterbrochen
-     * wird.
+     *                              wird.
      */
-    public synchronized void acquire() throws InterruptedException {
-        while (sema == 0) {
-            count++;
-            this.wait();
-            count--;
+    public synchronized void acquire() throws InterruptedException, IllegalArgumentException {
+        acquire(1);
+    }
+
+    public synchronized void acquire(final int permits) throws InterruptedException, IllegalArgumentException{
+        if (permits < 0 || permits > this.limit) {
+            throw new IllegalArgumentException("Requested permits are either lower than zero or higher than the allowed limit");
         }
-        sema--;
+
+        while (permits > sema) {
+            count += permits;
+            this.wait();
+            count -= permits;
+        }
+        sema -= permits;
     }
 
     /**
@@ -80,8 +93,23 @@ public final class Semaphore {
      * wird.
      */
     public synchronized void release() {
-        sema++;
-        this.notifyAll();
+        if(sema < limit){
+            sema++;
+            this.notifyAll();
+        }
+    }
+
+    public synchronized void release(final int permits){
+         if(permits < 0){
+             throw new IllegalArgumentException("permits below zero");
+         }
+         if((sema + permits) > this.limit){
+             throw new IllegalArgumentException("permits and already allowed passes are higher than the allowed limit");
+         }
+
+         sema += permits;
+         this.notifyAll();
+
     }
 
     /**

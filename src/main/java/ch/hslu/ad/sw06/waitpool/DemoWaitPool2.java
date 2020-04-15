@@ -11,7 +11,6 @@ public class DemoWaitPool2 {
         new Thread(new MyTask(LOCK)).start();
         Thread.sleep(1000);
 
-        //why???
         synchronized (LOCK) {
             LOCK.notifyAll();
         }
