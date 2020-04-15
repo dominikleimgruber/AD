@@ -22,7 +22,7 @@ package ch.hslu.ad.sw06.signal;
 public final class Semaphore {
 
     private int sema; // Semaphorenzähler
-    private int limit; // max Value of sema
+    private final int limit; // max Value of sema
     private int count; // Anzahl der wartenden Threads.
 
     /**
@@ -93,10 +93,7 @@ public final class Semaphore {
      * wird.
      */
     public synchronized void release() {
-        if(sema < limit){
-            sema++;
-            this.notifyAll();
-        }
+        release(1);
     }
 
     public synchronized void release(final int permits){

@@ -17,6 +17,7 @@ package ch.hslu.ad.sw06.buffer;
 
 import java.util.ArrayDeque;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Puffer nach dem First In First Out Prinzip mit einer begrenzten Kapazität.
@@ -29,15 +30,17 @@ public final class BoundedBuffer<T> implements Buffer<T> {
     private final ArrayDeque<T> queue;
     private final Semaphore putSema;
     private final Semaphore takeSema;
+    private final int maxSize;
 
     /**
      * Erzeugt einen Puffer mit bestimmter Kapazität.
      *
-     * @param n Kapazität des Puffers
+     * @param maxSize Kapazität des Puffers
      */
-    public BoundedBuffer(final int n) {
-        queue = new ArrayDeque<>(n);
-        putSema = new Semaphore(n);
+    public BoundedBuffer(final int maxSize) {
+        this.maxSize = maxSize;
+        queue = new ArrayDeque<>(maxSize);
+        putSema = new Semaphore(maxSize);
         takeSema = new Semaphore(0);
     }
 
@@ -63,36 +66,61 @@ public final class BoundedBuffer<T> implements Buffer<T> {
 
     @Override
     public boolean put(T elem, long millis) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (takeSema.tryAcquire(millis, TimeUnit.MILLISECONDS)) {
+            synchronized (queue) {
+                queue.addFirst(elem);
+            }
+            putSema.release();
+            return true;
+        }
+
+        return false;
+
     }
 
     @Override
     public T get(long millis) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        T elem = null;
+        if (putSema.tryAcquire(millis, TimeUnit.MILLISECONDS)) {
+
+            synchronized (queue) {
+                elem = queue.removeLast();
+            }
+            takeSema.release();
+
+        }
+
+        return elem;
     }
 
     @Override
     public T first() throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        takeSema.acquire();
+        T elem;
+        synchronized (queue) {
+            elem = queue.removeFirst();
+        }
+        putSema.release();
+        return elem;
     }
 
     @Override
     public T last() throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return get();
     }
 
     @Override
     public boolean empty() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return queue.isEmpty();
     }
 
     @Override
     public boolean full() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.queue.size() == this.maxSize;
     }
 
     @Override
-    public boolean size() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int size() {
+        return this.queue.size();
     }
 }

@@ -84,7 +84,8 @@ public interface Buffer<T> {
 
     /**
      * Gibt die Anzahl im Puffer gespeicherten Elemente zurück.
+     *
      * @return Anzahl Elemente.
      */
-    boolean size();
+    int size();
 }

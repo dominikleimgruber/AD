@@ -15,10 +15,11 @@
  */
 package ch.hslu.ad.sw06.buffer;
 
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Demonstration des BoundedBuffers mit n Producer und m Consumer.
@@ -35,10 +36,11 @@ public final class DemoBoundedBuffer {
 
     /**
      * Main-Demo.
+     *
      * @param args not used.
      * @throws InterruptedException wenn das warten unterbrochen wird.
      */
-    public static void main(final String args[]) throws InterruptedException {
+    public static void main(final String[] args) throws InterruptedException {
         final Random random = new Random();
         final int nPros = 3;
         final Producer[] producers = new Producer[nPros];
@@ -70,6 +72,6 @@ public final class DemoBoundedBuffer {
             LOG.info("Cons " + (char) (i + 65) + " = " + consumers[i].getSum());
             sumCons += consumers[i].getSum();
         }
-        LOG.info(sumPros + " = " + sumCons);
+        LOG.info("Done properly: {}", sumPros == sumCons);
     }
 }
