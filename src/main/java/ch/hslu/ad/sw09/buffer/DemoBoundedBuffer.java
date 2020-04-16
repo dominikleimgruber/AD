@@ -72,6 +72,6 @@ public final class DemoBoundedBuffer {
             LOG.info("Cons " + (char) (i + 65) + " = " + consumers[i].getSum());
             sumCons += consumers[i].getSum();
         }
-        LOG.info(sumPros + " = " + sumCons);
+        LOG.info("Done properly: {}" , sumPros == sumCons);
     }
 }

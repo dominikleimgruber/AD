@@ -15,7 +15,10 @@
  */
 package ch.hslu.ad.sw09.buffer;
 
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Puffer mit einer begrenzten Kapazität. Der Puffer ist thread sicher.
@@ -25,14 +28,16 @@ import java.util.concurrent.BlockingDeque;
 public class BoundedBufferAdapter<T> {
 
     private final BlockingDeque<T> deque;
+    private final int maxSize;
 
     /**
      * Erzeugt einen Puffer mit bestimmter Kapazität.
      *
-     * @param n Kapazität des Puffers
+     * @param maxSize Kapazität des Puffers
      */
-    public BoundedBufferAdapter(final int n) {
-        deque = null;
+    public BoundedBufferAdapter(final int maxSize) {
+        this.maxSize = maxSize;
+        this.deque = new LinkedBlockingDeque<>(maxSize);
     }
 
     /**
@@ -43,7 +48,7 @@ public class BoundedBufferAdapter<T> {
      * @throws InterruptedException falls das Warten unterbrochen wird.
      */
     public void put(final T elem) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       deque.putFirst(elem);
     }
 
     /**
@@ -54,7 +59,7 @@ public class BoundedBufferAdapter<T> {
      * @throws InterruptedException falls das Warten unterbrochen wird.
      */
     public void push(final T elem) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       deque.putLast(elem);
     }
 
     /**
@@ -67,7 +72,7 @@ public class BoundedBufferAdapter<T> {
      * @throws InterruptedException falls das Warten unterbrochen wird.
      */
     public boolean put(final T elem, final long millis) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return deque.offerFirst(elem, millis, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -78,7 +83,7 @@ public class BoundedBufferAdapter<T> {
      * @throws InterruptedException falls das Warten unterbrochen wird.
      */
     public T get() throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return deque.takeLast();
     }
 
     /**
@@ -89,7 +94,7 @@ public class BoundedBufferAdapter<T> {
      * @throws InterruptedException falls das Warten unterbrochen wird.
      */
     public T front() throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.deque.takeFirst();
     }
 
     /**
@@ -100,7 +105,7 @@ public class BoundedBufferAdapter<T> {
      * @throws InterruptedException falls das Warten unterbrochen wird.
      */
     public T back() throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return  get();
     }
 
     /**
@@ -112,7 +117,7 @@ public class BoundedBufferAdapter<T> {
      * @throws InterruptedException falls das Warten unterbrochen wird.
      */
     public T get(final long millis) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return this.deque.pollLast(millis, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -121,7 +126,7 @@ public class BoundedBufferAdapter<T> {
      * @return true, wenn der Puffer leer ist.
      */
     public boolean empty() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.deque.size() == 0;
     }
 
     /**
@@ -130,7 +135,7 @@ public class BoundedBufferAdapter<T> {
      * @return true, wenn der Puffer voll ist.
      */
     public boolean full() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.deque.size() == this.maxSize;
     }
 
     /**
@@ -139,6 +144,6 @@ public class BoundedBufferAdapter<T> {
      * @return Anzahl Elemente im Puffer.
      */
     public int size() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.deque.size();
     }
 }

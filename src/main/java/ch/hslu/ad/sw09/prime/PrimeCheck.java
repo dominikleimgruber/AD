@@ -18,8 +18,12 @@ package ch.hslu.ad.sw09.prime;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.*;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
+import java.util.concurrent.*;
 
 /**
  * 100 grosse Primzahlen produzieren.
@@ -39,15 +43,33 @@ public final class PrimeCheck {
      *
      * @param args not used.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         int n = 1;
+
+         
         while (n <= 100) {
-            BigInteger bi = new BigInteger(1024, new Random());
-            //BigInteger bi = new BigInteger(1024, Integer.MAX_VALUE, new Random());
-            if (bi.isProbablePrime(Integer.MAX_VALUE)) {
-                LOG.info(n + ": " + bi.toString().substring(0, 20) + "...");
-                n++;
-            }
+            Callable<Integer> callable = () -> {
+                BigInteger bi = new BigInteger(1024, new Random());
+                //BigInteger bi = new BigInteger(1024, Integer.MAX_VALUE, new Random());
+                if (bi.isProbablePrime(Integer.MAX_VALUE)) {
+                    //LOG.info(n + ": " + bi.toString().substring(0, 20) + "...");
+                    try (PrintWriter pw =
+                                 new PrintWriter(new BufferedWriter(new OutputStreamWriter
+                                         (new FileOutputStream("/Users/dominikleimgruber/Desktop/prim.txt"), StandardCharsets.UTF_8)));
+                    ) {
+                        pw.println(bi.toString().substring(0, 20));
+                        pw.close();
+                    } catch (IOException ioe) {
+                        LOG.error(ioe);
+                    }
+                    return 1;
+                }
+                return 0;
+            };
+            ExecutorService executor = Executors.newCachedThreadPool();
+            Future<Integer> future = executor.submit(callable);
+            n += future.get();
         }
     }
 }
+
