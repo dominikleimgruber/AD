@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.sw06.latch;
-
-import java.util.Random;
+package ch.hslu.ad.sw08.latch;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Random;
 
 /**
  * Ein Rennpferd, das durch ein Startsignal losläuft. Nach einer zufälligen Zeit kommt es im Ziel

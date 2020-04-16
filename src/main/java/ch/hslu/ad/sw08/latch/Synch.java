@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.sw06.latch;
+package ch.hslu.ad.sw08.latch;
 
 /**
  * Schnittstelle für die Zutrittsverwaltung geschützter Bereiche.
@@ -22,12 +22,13 @@ public interface Synch {
 
     /**
      * Eintritt in einen geschützten Bereich erlangen, falls kein Zutritt möglich ist warten.
+     *
      * @throws InterruptedException wenn das Warten unterbrochen wird.
      */
-    public void acquire() throws InterruptedException;
+    void acquire() throws InterruptedException;
 
     /**
      * Freigabe des geschützten Bereiches beim Austritt.
      */
-    public void release();
+    void release();
 }

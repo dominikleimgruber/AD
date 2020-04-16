@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.sw06.buffer;
+package ch.hslu.ad.sw08.buffer;
 
 import java.util.ArrayDeque;
 import java.util.concurrent.Semaphore;
@@ -66,11 +66,11 @@ public final class BoundedBuffer<T> implements Buffer<T> {
 
     @Override
     public boolean put(T elem, long millis) throws InterruptedException {
-        if (takeSema.tryAcquire(millis, TimeUnit.MILLISECONDS)) {
+        if (putSema.tryAcquire(millis, TimeUnit.MILLISECONDS)) {
             synchronized (queue) {
                 queue.addFirst(elem);
             }
-            putSema.release();
+            takeSema.release();
             return true;
         }
 
@@ -81,12 +81,12 @@ public final class BoundedBuffer<T> implements Buffer<T> {
     @Override
     public T get(long millis) throws InterruptedException {
         T elem = null;
-        if (putSema.tryAcquire(millis, TimeUnit.MILLISECONDS)) {
+        if (takeSema.tryAcquire(millis, TimeUnit.MILLISECONDS)) {
 
             synchronized (queue) {
                 elem = queue.removeLast();
             }
-            takeSema.release();
+            putSema.release();
 
         }
 

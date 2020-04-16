@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.sw06.latch;
+package ch.hslu.ad.sw08.latch;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,17 +39,19 @@ public final class Turf {
      *
      * @param args not used.
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws InterruptedException {
         final Synch starterBox = new Latch();
         List<Thread> threads = new ArrayList<>();
         for (int i = 1; i < 6; i++) {
             threads.add(new Thread(new RaceHorse(starterBox), "Horse " + i));
             threads.get(i - 1).start();
         }
-        LOG.info("Start...");
 
-        starterBox.release();
+        Thread.sleep(1000);
+        LOG.info("Start...");
         threads.forEach(Thread::interrupt);
+        starterBox.release();
+
 
     }
 }

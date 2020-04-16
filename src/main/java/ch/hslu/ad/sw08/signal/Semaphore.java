@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.sw06.signal;
+package ch.hslu.ad.sw08.signal;
 
 /**
  * Ein nach oben nicht begrenztes Semaphor, d.h. der Semaphorenzähler kann
@@ -52,8 +52,8 @@ public final class Semaphore {
      * @throws IllegalArgumentException wenn Argumente ungültige Werte besitzen.
      */
     public Semaphore(final int permits, final int limit) throws IllegalArgumentException {
-        if (permits < 0 || permits > limit) {
-            throw new IllegalArgumentException(permits + " < 0");
+        if (permits <= 0 || permits > limit) {
+            throw new IllegalArgumentException(permits + " < 0 or bigger than limit");
         }
         this.sema = permits;
         this.limit = limit;

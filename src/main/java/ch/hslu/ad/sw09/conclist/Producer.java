@@ -13,45 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.sw06.buffer;
+package ch.hslu.ad.sw09.conclist;
+
+import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Produzent, der eine maximale Anzahl Werte produziert und diese in eine Queue speichert.
  */
-public final class Producer implements Runnable {
+public final class Producer implements Callable<Long> {
 
-    private final BoundedBuffer<Integer> queue;
+    private final List<Integer> list;
     private final int maxRange;
-    private long sum;
 
     /**
      * Erzeugt einen Produzent, der eine bestimmte Anzahl Integer-Werte produziert.
-     * @param queue Queue zum Speichern der Integer-Werte.
-     * @param max Anzahl Integer-Werte.
+     *
+     * @param list Queue zum Speichern der Integer-Werte.
+     * @param max  Anzahl Integer-Werte.
      */
-    public Producer(final BoundedBuffer<Integer> queue, final int max) {
-        this.queue = queue;
+    public Producer(final List<Integer> list, final int max) {
+        this.list = list;
         this.maxRange = max;
-        this.sum = 0;
-    }
-
-    @Override
-    public void run() {
-        for (int i = 0; i < maxRange; i++) {
-            try {
-                sum += i;
-                queue.put(i);
-            } catch (InterruptedException ex) {
-                return;
-            }
-        }
     }
 
     /**
-     * Liefert die Summe aller gespeicherter Werte.
+     * Liefert die Summe aller zusammengezählter Integer Werte.
+     *
      * @return Summe.
+     * @throws java.lang.Exception falls Ausnahmen passieren.
      */
-    public long getSum() {
-        return sum;
+    @Override
+    public Long call() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

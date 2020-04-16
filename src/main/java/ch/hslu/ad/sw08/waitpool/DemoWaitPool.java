@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.sw06.waitpool;
+package ch.hslu.ad.sw08.waitpool;
 
 /**
  * Demonstration eines Wait-Pools.
  */
 public final class DemoWaitPool {
 
-    private static final Object LOCK = new Object();
+    private static final Object LOCK = new Object(); //Nebenläufigkeit geht durch Klassenlock verloren.
 
     /**
      * Privater Konstruktor.

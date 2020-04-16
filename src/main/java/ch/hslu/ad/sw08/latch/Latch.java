@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.sw06.latch;
+package ch.hslu.ad.sw08.latch;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Eine Synchronisationshilfe, die es ermöglicht, einen oder mehrere Threads warten zu lassen, bis
@@ -22,6 +25,7 @@ package ch.hslu.ad.sw06.latch;
  */
 public class Latch implements Synch {
 
+    private static final Logger LOG = LogManager.getLogger(Latch.class);
     private boolean sema = true;
     private final Object lock = new Object();
 
@@ -30,7 +34,12 @@ public class Latch implements Synch {
     public void acquire() throws InterruptedException {
         synchronized (lock) {
             while (sema) {
-                lock.wait();
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    LOG.info("Racestart was canceled");
+                    throw e;
+                }
             }
         }
     }

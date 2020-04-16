@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.sw06.buffer;
+package ch.hslu.ad.sw09.buffer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,7 +48,7 @@ public final class DemoBoundedBuffer {
         final int mCons = 2;
         final Consumer[] consumers = new Consumer[mCons];
         final ThreadGroup consGroup = new ThreadGroup("Consumer-Threads");
-        final BoundedBuffer<Integer> queue = new BoundedBuffer<>(50);
+        final BoundedBufferAdapter<Integer> queue = new BoundedBufferAdapter<>(50);
         for (int i = 0; i < nPros; i++) {
             producers[i] = new Producer(queue, random.nextInt(10000));
             new Thread(prosGroup, producers[i], "Prod  " + (char) (i + 65)).start();
@@ -72,6 +72,6 @@ public final class DemoBoundedBuffer {
             LOG.info("Cons " + (char) (i + 65) + " = " + consumers[i].getSum());
             sumCons += consumers[i].getSum();
         }
-        LOG.info("Done properly: {}", sumPros == sumCons);
+        LOG.info(sumPros + " = " + sumCons);
     }
 }

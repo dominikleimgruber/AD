@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.sw06.signal;
+package ch.hslu.ad.sw08.signal;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 
 /**
  * Demonstration eines Semaphors.
@@ -24,7 +25,7 @@ import org.apache.logging.log4j.Logger;
 public final class DemoSema {
 
     private static final Logger LOG = LogManager.getLogger(DemoSema.class);
-    private static Semaphore sema = new Semaphore(3, 4);
+    private static final Semaphore sema = new Semaphore(1);
 
     /**
      * Privater Konstruktor.
