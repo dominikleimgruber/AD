@@ -20,7 +20,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.math.BigInteger;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +32,7 @@ import java.util.concurrent.*;
 public final class PrimeCheck {
 
     private static final Logger LOG = LogManager.getLogger(PrimeCheck.class);
+    private static final int NUMBER_OF_PRIMES = 100;
 
     /**
      * Privater Konstruktor.
@@ -45,30 +45,45 @@ public final class PrimeCheck {
      *
      * @param args not used.
      */
-    public static void main(String[] args) throws InterruptedException, ExecutionException {
-        final List<BigInteger> primes = new ArrayList<>();
+    public static void main(String[] args) {
+        final BlockingQueue<BigInteger> primes = new ArrayBlockingQueue<>(NUMBER_OF_PRIMES);
+        final List<Future<BigInteger>> futures = new ArrayList<>();
         Callable<BigInteger> callable = () -> {
             BigInteger bi = new BigInteger(1024, new Random());
-            while(bi.isProbablePrime(Integer.MAX_VALUE)){
-                LOG.info("not Prime");
+            while (!bi.isProbablePrime(Integer.MAX_VALUE)) {
+                bi = new BigInteger(1024, new Random());
             }
             return bi;
         };
 
-        final ExecutorService execurtor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        while(primes.size() < 100){
-            Future<BigInteger> future = execurtor.submit(callable);
-            primes.add(future.get());
+        final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
+        LOG.debug("Create futures");
+        for (int i = 0; i < NUMBER_OF_PRIMES; i++) {
+            futures.add(executor.submit(callable));
         }
 
-        try(PrintWriter pw =
-                    new PrintWriter(new BufferedWriter(new OutputStreamWriter(
-                            new FileOutputStream("/Users/dominikleimgruber/Desktop/primes.txt"), Charset.forName("UTF-8"))));
-        ){
+        LOG.debug("get Results");
+        futures.forEach(f -> {
+            try {
+                LOG.debug("got result");
+                primes.offer(f.get());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        });
+
+        try (PrintWriter pw =
+                     new PrintWriter(new BufferedWriter(new OutputStreamWriter(
+                             new FileOutputStream("C:\\Users\\Dominik\\Desktop\\primes.txt"), StandardCharsets.UTF_8)))
+        ) {
+            LOG.info("write File");
             primes.forEach(f -> pw.println(f.toString().substring(0, 20)));
-        }catch (IOException e){
+            pw.flush();
+        } catch (IOException e) {
             LOG.error(e);
         }
+        LOG.debug("File written");
+        executor.shutdown();
     }
 }
 
