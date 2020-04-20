@@ -33,6 +33,7 @@ public final class PrimeCheck {
 
     private static final Logger LOG = LogManager.getLogger(PrimeCheck.class);
     private static final int NUMBER_OF_PRIMES = 100;
+    private static final String FILE = "/Users/dominikleimgruber/Desktop/primes.txt";
 
     /**
      * Privater Konstruktor.
@@ -46,8 +47,41 @@ public final class PrimeCheck {
      * @param args not used.
      */
     public static void main(String[] args) {
-        final BlockingQueue<BigInteger> primes = new ArrayBlockingQueue<>(NUMBER_OF_PRIMES);
+        final BlockingQueue<BigInteger> primesAsync = new ArrayBlockingQueue<>(NUMBER_OF_PRIMES);
+        final BlockingQueue<BigInteger> primesSync = new ArrayBlockingQueue<>(NUMBER_OF_PRIMES);
+
+        long startAsync = System.currentTimeMillis();
+        findBigPrimesAsync(primesAsync);
+        long endAsync = System.currentTimeMillis();
+
+        long startSync = System.currentTimeMillis();
+        findBigPrimeSync(primesSync);
+        long endSync = System.currentTimeMillis();
+
+        LOG.info("Time Async: {}", (endAsync - startAsync));
+        LOG.info("Time Sync: {}", (endSync - startSync));
+
+        writeData(primesAsync);
+
+
+    }
+
+    private static void writeData(final BlockingQueue<BigInteger> primes) {
+        try (PrintWriter pw =
+                     new PrintWriter(new BufferedWriter(new OutputStreamWriter(
+                             new FileOutputStream(FILE), StandardCharsets.UTF_8)))
+        ) {
+            primes.forEach(f -> pw.println(f.toString().substring(0, 20)));
+            pw.flush();
+        } catch (IOException e) {
+            LOG.error(e);
+        }
+        LOG.debug("File written");
+    }
+
+    private static void findBigPrimesAsync(final BlockingQueue<BigInteger> queue) {
         final List<Future<BigInteger>> futures = new ArrayList<>();
+        final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
         Callable<BigInteger> callable = () -> {
             BigInteger bi = new BigInteger(1024, new Random());
             while (!bi.isProbablePrime(Integer.MAX_VALUE)) {
@@ -56,34 +90,30 @@ public final class PrimeCheck {
             return bi;
         };
 
-        final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
-        LOG.debug("Create futures");
         for (int i = 0; i < NUMBER_OF_PRIMES; i++) {
             futures.add(executor.submit(callable));
         }
-
-        LOG.debug("get Results");
         futures.forEach(f -> {
             try {
-                LOG.debug("got result");
-                primes.offer(f.get());
+                LOG.debug("got result, Async");
+                queue.offer(f.get());
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         });
-
-        try (PrintWriter pw =
-                     new PrintWriter(new BufferedWriter(new OutputStreamWriter(
-                             new FileOutputStream("C:\\Users\\Dominik\\Desktop\\primes.txt"), StandardCharsets.UTF_8)))
-        ) {
-            LOG.info("write File");
-            primes.forEach(f -> pw.println(f.toString().substring(0, 20)));
-            pw.flush();
-        } catch (IOException e) {
-            LOG.error(e);
-        }
-        LOG.debug("File written");
         executor.shutdown();
+    }
+
+    private static void findBigPrimeSync(final BlockingQueue<BigInteger> queue) {
+        int n = 1;
+        while (n < NUMBER_OF_PRIMES) {
+            BigInteger bi = new BigInteger(1024, new Random());
+            if (bi.isProbablePrime(Integer.MAX_VALUE)) {
+                queue.offer(bi);
+                LOG.debug("got result sync");
+                n++;
+            }
+        }
     }
 }
 
