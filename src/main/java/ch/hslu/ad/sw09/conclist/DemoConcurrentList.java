@@ -18,14 +18,8 @@ package ch.hslu.ad.sw09.conclist;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * Demonstration einer synchrnisierten List mit n Producer und m Consumer.
@@ -33,6 +27,11 @@ import java.util.concurrent.Future;
 public final class DemoConcurrentList {
 
     private static final Logger LOG = LogManager.getLogger(DemoConcurrentList.class);
+    private static final List<Integer> list = new LinkedList<>();
+    private static final BlockingQueue<Integer> queue = new LinkedBlockingDeque<>();
+    private static final ExecutorService executor1 = Executors.newCachedThreadPool();
+    private static final ExecutorService executor = Executors.newCachedThreadPool();
+    private static final List<Future<Long>> futures = new ArrayList<>();
 
     /**
      * Privater Konstruktor.
@@ -48,22 +47,58 @@ public final class DemoConcurrentList {
      * @throws java.util.concurrent.ExecutionException bei Excecution-Fehler.
      */
     public static void main(final String[] args) throws InterruptedException, ExecutionException {
-        final List<Integer> list = new LinkedList<>();
-        final ExecutorService executor = Executors.newCachedThreadPool();
-        final List<Future<Long>> futures = new ArrayList<>();
+
+        long startSyncList = System.currentTimeMillis();
+        syncList();
+        long endSyncList = System.currentTimeMillis();
+
+
+        futures.clear();
+
+        long startBlockQueue = System.currentTimeMillis();
+        blockQueue();
+        long endBlockQueue = System.currentTimeMillis();
+        executor.shutdown();
+
+        LOG.info("Time sync list: {}", endSyncList - startSyncList);
+        LOG.info("Time blocking queue: {}", endBlockQueue - startBlockQueue);
+    }
+
+    private static void blockQueue() throws ExecutionException, InterruptedException {
+
         for (int i = 0; i < 3; i++) {
-            futures.add(executor.submit(new Producer(list, 1000)));
+            futures.add(executor.submit(new ProducerBlocking(queue, 10_000_000)));
         }
         Iterator<Future<Long>> iterator = futures.iterator();
         long totProd = 0;
         while (iterator.hasNext()) {
             long sum = iterator.next().get();
             totProd += sum;
-            LOG.info("prod sum = " + sum);
+            LOG.info("BlockingProd sum = " + sum);
         }
-        LOG.info("prod tot = " + totProd);
-        long totCons = executor.submit(new Consumer(list)).get();
-        LOG.info("cons tot = " + totCons);
-        executor.shutdown();
+        LOG.info("BlockingProd tot = " + totProd);
+        Future<Long> future = executor.submit(new ConsumerBlocking(queue));
+        long totCons = future.get();
+        LOG.info("BlockingCons tot = " + totCons);
+    }
+
+    private static void syncList() throws ExecutionException, InterruptedException {
+
+        List<Integer> syncList = Collections.synchronizedList(list);
+        for (int i = 0; i < 3; i++) {
+            futures.add(executor.submit(new Producer(syncList, 10_000_000)));
+        }
+        Iterator<Future<Long>> iterator = futures.iterator();
+        long totProd = 0;
+        while (iterator.hasNext()) {
+            long sum = iterator.next().get();
+            totProd += sum;
+            LOG.info("SyncProd sum = " + sum);
+        }
+        LOG.info("SyncProd tot = " + totProd);
+        Future<Long> future = executor.submit(new Consumer(syncList));
+        long totCons = future.get();
+        LOG.info("SyncCons tot = " + totCons);
+
     }
 }

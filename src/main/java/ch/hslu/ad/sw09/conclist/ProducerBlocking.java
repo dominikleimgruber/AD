@@ -15,15 +15,15 @@
  */
 package ch.hslu.ad.sw09.conclist;
 
-import java.util.List;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 
 /**
  * Produzent, der eine maximale Anzahl Werte produziert und diese in eine Queue speichert.
  */
-public final class Producer implements Callable<Long> {
+public final class ProducerBlocking implements Callable<Long> {
 
-    private final List<Integer> list;
+    private final BlockingQueue<Integer> list;
     private final int maxRange;
 
     /**
@@ -32,7 +32,7 @@ public final class Producer implements Callable<Long> {
      * @param list Queue zum Speichern der Integer-Werte.
      * @param max  Anzahl Integer-Werte.
      */
-    public Producer(final List<Integer> list, final int max) {
+    public ProducerBlocking(final BlockingQueue<Integer> list, final int max) {
         this.list = list;
         this.maxRange = max;
     }
@@ -41,14 +41,14 @@ public final class Producer implements Callable<Long> {
      * Liefert die Summe aller zusammengezählter Integer Werte.
      *
      * @return Summe.
-     * @throws java.lang.Exception falls Ausnahmen passieren.
+     * @throws Exception falls Ausnahmen passieren.
      */
     @Override
     public Long call() throws Exception {
         long sum = 0;
         for (int i = 1; i <= maxRange; i++) {
             sum += i;
-            list.add(i);
+            list.offer(i);
         }
         return sum;
     }

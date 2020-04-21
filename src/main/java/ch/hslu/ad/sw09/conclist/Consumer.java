@@ -15,6 +15,7 @@
  */
 package ch.hslu.ad.sw09.conclist;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -42,6 +43,12 @@ public final class Consumer implements Callable<Long> {
      */
     @Override
     public Long call() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        long sum = 0;
+        Iterator<Integer> iterable = list.iterator();
+        while (iterable.hasNext()) {
+            sum += iterable.next();
+        }
+        return sum;
+
     }
 }
