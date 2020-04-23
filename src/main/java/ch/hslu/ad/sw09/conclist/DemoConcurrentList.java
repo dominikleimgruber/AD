@@ -28,7 +28,7 @@ public final class DemoConcurrentList {
 
     private static final Logger LOG = LogManager.getLogger(DemoConcurrentList.class);
     private static final List<Integer> list = new LinkedList<>();
-    private static final BlockingQueue<Integer> queue = new LinkedBlockingDeque<>();
+    private static final BlockingQueue<Integer> queue = new LinkedBlockingQueue<>();
     private static final ExecutorService executor1 = Executors.newCachedThreadPool();
     private static final ExecutorService executor = Executors.newCachedThreadPool();
     private static final List<Future<Long>> futures = new ArrayList<>();
@@ -48,38 +48,23 @@ public final class DemoConcurrentList {
      */
     public static void main(final String[] args) throws InterruptedException, ExecutionException {
 
+
+        long startBlockQueue = System.currentTimeMillis();
+        blockQueue();
+        long endBlockQueue = System.currentTimeMillis();
+
+
+        futures.clear();
+
         long startSyncList = System.currentTimeMillis();
         syncList();
         long endSyncList = System.currentTimeMillis();
 
 
-        futures.clear();
-
-        long startBlockQueue = System.currentTimeMillis();
-        blockQueue();
-        long endBlockQueue = System.currentTimeMillis();
         executor.shutdown();
 
         LOG.info("Time sync list: {}", endSyncList - startSyncList);
         LOG.info("Time blocking queue: {}", endBlockQueue - startBlockQueue);
-    }
-
-    private static void blockQueue() throws ExecutionException, InterruptedException {
-
-        for (int i = 0; i < 3; i++) {
-            futures.add(executor.submit(new ProducerBlocking(queue, 10_000_000)));
-        }
-        Iterator<Future<Long>> iterator = futures.iterator();
-        long totProd = 0;
-        while (iterator.hasNext()) {
-            long sum = iterator.next().get();
-            totProd += sum;
-            LOG.info("BlockingProd sum = " + sum);
-        }
-        LOG.info("BlockingProd tot = " + totProd);
-        Future<Long> future = executor.submit(new ConsumerBlocking(queue));
-        long totCons = future.get();
-        LOG.info("BlockingCons tot = " + totCons);
     }
 
     private static void syncList() throws ExecutionException, InterruptedException {
@@ -101,4 +86,24 @@ public final class DemoConcurrentList {
         LOG.info("SyncCons tot = " + totCons);
 
     }
+
+    private static void blockQueue() throws ExecutionException, InterruptedException {
+
+        for (int i = 0; i < 3; i++) {
+            futures.add(executor.submit(new ProducerBlocking(queue, 10_000_000)));
+        }
+        Iterator<Future<Long>> iterator = futures.iterator();
+        long totProd = 0;
+        while (iterator.hasNext()) {
+            long sum = iterator.next().get();
+            totProd += sum;
+            LOG.info("BlockingProd sum = " + sum);
+        }
+        LOG.info("BlockingProd tot = " + totProd);
+        Future<Long> future = executor.submit(new ConsumerBlocking(queue));
+        long totCons = future.get();
+        LOG.info("BlockingCons tot = " + totCons);
+    }
+
+
 }
