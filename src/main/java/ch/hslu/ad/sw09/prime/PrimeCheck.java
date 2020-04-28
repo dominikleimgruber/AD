@@ -81,7 +81,7 @@ public final class PrimeCheck {
 
     private static void findBigPrimesAsync(final BlockingQueue<BigInteger> queue) {
         final List<Future<BigInteger>> futures = new ArrayList<>();
-        final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
+        final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         Callable<BigInteger> callable = () -> {
             BigInteger bi = new BigInteger(1024, new Random());
             while (!bi.isProbablePrime(Integer.MAX_VALUE)) {

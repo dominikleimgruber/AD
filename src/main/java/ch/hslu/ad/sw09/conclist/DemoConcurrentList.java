@@ -29,7 +29,6 @@ public final class DemoConcurrentList {
     private static final Logger LOG = LogManager.getLogger(DemoConcurrentList.class);
     private static final List<Integer> list = new LinkedList<>();
     private static final BlockingQueue<Integer> queue = new LinkedBlockingQueue<>();
-    private static final ExecutorService executor1 = Executors.newCachedThreadPool();
     private static final ExecutorService executor = Executors.newCachedThreadPool();
     private static final List<Future<Long>> futures = new ArrayList<>();
 
@@ -71,7 +70,7 @@ public final class DemoConcurrentList {
 
         List<Integer> syncList = Collections.synchronizedList(list);
         for (int i = 0; i < 3; i++) {
-            futures.add(executor.submit(new Producer(syncList, 10_000_000)));
+            futures.add(executor.submit(new Producer(syncList, 1_000_000)));
         }
         Iterator<Future<Long>> iterator = futures.iterator();
         long totProd = 0;
@@ -90,7 +89,7 @@ public final class DemoConcurrentList {
     private static void blockQueue() throws ExecutionException, InterruptedException {
 
         for (int i = 0; i < 3; i++) {
-            futures.add(executor.submit(new ProducerBlocking(queue, 10_000_000)));
+            futures.add(executor.submit(new ProducerBlocking(queue, 1_000_000)));
         }
         Iterator<Future<Long>> iterator = futures.iterator();
         long totProd = 0;
@@ -104,6 +103,4 @@ public final class DemoConcurrentList {
         long totCons = future.get();
         LOG.info("BlockingCons tot = " + totCons);
     }
-
-
 }
