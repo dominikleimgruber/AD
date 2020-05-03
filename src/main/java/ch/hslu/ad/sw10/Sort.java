@@ -34,22 +34,19 @@ public class Sort {
 
     public static <T extends Comparable<? super T>> void bubbleSort(final T[] a) {
 
-        boolean swapped;
-        for (int i = 0; i < a.length - 1; i++) {
+        boolean swapped = true;
+        while (swapped) {
             swapped = false;
-            for (int j = 0; j < a.length - i - 1; j++){
-                if(a[j].compareTo(a[j + 1]) > 0){
+            for (int i = 0; i < a.length - 1; i++) {
+                if (a[i].compareTo(a[i + 1]) > 0) {
+                    exchange(a, i, i + 1);
                     swapped = true;
-                    exchange(a, j, j + 1);
                 }
-            }
-            if(!swapped){
-                return;
             }
         }
     }
 
-    private static <T> void exchange(T[] a, int x, int y){
+    private static <T> void exchange(T[] a, int x, int y) {
         T temp;
         temp = a[x];
         a[x] = a[y];
