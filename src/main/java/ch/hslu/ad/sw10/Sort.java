@@ -17,6 +17,24 @@ public class Sort {
         }
     }
 
+    public static void selectionSort(final int[] a, int min, int max) {
+
+        int smallest;
+        for (int i = min; i < max - 1; i++) {
+            smallest = i;
+            for (int j = i + 1; j < max; j++) {
+                if (a[smallest] > a[j]) {
+                    smallest = j;
+                }
+            }
+
+            int temp;
+            temp = a[i];
+            a[i] = a[smallest];
+            a[smallest] = temp;
+        }
+    }
+
     public static <T extends Comparable<? super T>> void selectionSort(final T[] a) {
 
         int smallest;

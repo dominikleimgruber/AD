@@ -65,7 +65,7 @@ public class FixedSizeHeap<T extends Comparable<T>> implements Heap<T> {
         int parent = 0;
         int biggerIndex;
         T left;
-        
+
         while (hasLeft(parent)) {
             biggerIndex = leftChild(parent);
             left = (T) heap[biggerIndex];

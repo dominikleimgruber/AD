@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 public class Playground {
@@ -11,16 +12,19 @@ public class Playground {
     private static final Logger LOG = LogManager.getLogger(Playground.class);
 
     public static void main(String[] args) {
-        Integer[] unsorted500 = new Integer[5_000_000];
-        //IntStream.range(0, 500_000).forEach(f -> unsorted500[f] = new Random().nextInt(Integer.MAX_VALUE));
-
-        IntStream.range(0, 5_000_000).forEach( f -> {
-                if(f % 2 == 0){
-                    unsorted500[f] = f * 16 ;
-                }else if(f % 2 == 1) {
-                    unsorted500[f] = f * 17 * (int) Math.pow(-1,f);
-                }
+        Integer[] unsorted500 = new Integer[75_000_000];
+        IntStream.range(0, unsorted500.length).forEach(f -> {
+            unsorted500[f] = new Random().nextInt(Integer.MAX_VALUE);
+            if(f == 74_999_999) LOG.info(f);
         });
+
+        /*IntStream.range(0, 300_000_000).forEach( f -> {
+                if(f % 2 == 0){
+                    unsorted500[f] = f * 8 ;
+                }else if(f % 2 == 1) {
+                    unsorted500[f] = f * 5 * (int) Math.pow(-1,f);
+                }
+        });*/
 
 
         long start = System.currentTimeMillis();
