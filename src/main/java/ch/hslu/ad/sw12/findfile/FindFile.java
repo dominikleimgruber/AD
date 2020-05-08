@@ -16,6 +16,7 @@
 package ch.hslu.ad.sw12.findfile;
 
 import java.io.File;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +31,7 @@ public final class FindFile {
      * Sucht ein File in einem Verzeichnis.
      *
      * @param name Name des Files.
-     * @param dir Verzeichnis.
+     * @param dir  Verzeichnis.
      */
     public static void findFile(final String name, final File dir) {
         final File[] list = dir.listFiles();
@@ -39,7 +40,7 @@ public final class FindFile {
                 if (file.isDirectory()) {
                     findFile(name, file);
                 } else if (name.equalsIgnoreCase(file.getName())) {
-                    LOG.info(file.getParentFile());
+                    LOG.info("Found in path: {}", file.getParentFile());
                     return;
                 }
             }

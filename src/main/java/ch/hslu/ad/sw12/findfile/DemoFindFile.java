@@ -16,6 +16,7 @@
 package ch.hslu.ad.sw12.findfile;
 
 import java.io.File;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,14 +39,19 @@ public final class DemoFindFile {
      * @param args not used.
      */
     public static void main(String[] args) {
-        final String search = "find.me";
+        long end, start;
+        final String search = "primes.txt";
         final File rootDir = new File(System.getProperty("user.home"));
-        LOG.info("Start searching '" + search + "' recurive in '" + rootDir + "'");
+        LOG.info("Start searching '" + search + "' recursive in '" + rootDir + "'");
+        start = System.currentTimeMillis();
         FindFile.findFile(search, rootDir);
-        LOG.info("Found in ?");
+        end = System.currentTimeMillis();
+        LOG.info("Found in {}msec",end - start);
         LOG.info("Find " + search + " concurrent in " + rootDir);
         final FindFileTask root = new FindFileTask(search, rootDir);
-        LOG.info(root.invoke());
-        LOG.info("Found in ?");
+        start = System.currentTimeMillis();
+        LOG.info("Found in path: {}", root.invoke());
+        end = System.currentTimeMillis();
+        LOG.info("Found in {}msec",end - start);
     }
 }
