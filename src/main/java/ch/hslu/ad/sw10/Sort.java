@@ -1,5 +1,7 @@
 package ch.hslu.ad.sw10;
 
+import java.util.stream.IntStream;
+
 public class Sort {
 
     public static <T extends Comparable<? super T>> void insertionSort(final T[] a) {
@@ -15,6 +17,27 @@ public class Sort {
             }
             a[j] = element;
         }
+    }
+
+    public static void insertionSort2(final int[] a, int min, int max) {
+
+        int j;
+        int[] sorting = new int[max - min + 1];
+        IntStream.range(min, max).forEach(f -> sorting[(f - min) + 1] = a[f]);
+
+        for (int i = 2; i < sorting.length; i++) {
+            int element = sorting[i];
+            sorting[0] = element;
+            j = i;
+            while (sorting[j - 1] > element) {
+                sorting[j] = sorting[j - 1];
+                j--;
+            }
+            sorting[j] = element;
+        }
+
+        IntStream.range(min, max).forEach(f -> a[f] = sorting[(f - min) + 1]);
+
     }
 
     public static void selectionSort(final int[] a, int min, int max) {

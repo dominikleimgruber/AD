@@ -15,6 +15,8 @@
  */
 package ch.hslu.ad.sw12.quicksort;
 
+import ch.hslu.ad.sw10.Sort;
+
 /**
  * Codevorlage zu RecursiveAction für die Sortierung eines int-Arrays.
  */
@@ -33,34 +35,39 @@ public class QuicksortRecursive {
     /**
      * Recursive quicksort logic.
      *
-     * @param array    input array.
-     * @param startIdx start index of the array.
-     * @param endIdx   end index of the array.
+     * @param array input array.
+     * @param left  start index of the array.
+     * @param right end index of the array.
      */
-    public static void quicksort(int[] array, int startIdx, int endIdx) {
-        int up = startIdx;
-        int down = endIdx - 1;
-        int t = array[endIdx];
+    public static void quicksort(int[] array, int left, int right) {
+        int up = left;
+        int down = right - 1;
+        int t = array[right];
         boolean allChecked = false;
-        do {
-            while (array[up] < t) {
-                up++;
-            }
-            while ((array[down] >= t) && (down > up)) {
-                down--;
-            }
-            if (down > up) {
-                exchange(array, up, down);
-                up++;
-                down--;
-            } else {
-                allChecked = true;
-            }
-        } while (!allChecked);
-        exchange(array, up, endIdx);
+        if ((right - left) > 50) {
+            do {
+                while (array[up] < t) {
+                    up++;
+                }
+                while ((array[down] > t) && (down > up)) {
+                    down--;
+                }
+                if (down > up) {
+                    exchange(array, up, down);
+                    up++;
+                    down--;
+                } else {
+                    allChecked = true;
+                }
+            } while (!allChecked);
+            exchange(array, up, right);
 
-        if (startIdx < (up - 1)) quicksort(array, startIdx, (up - 1));
-        if ((up + 1) < endIdx) quicksort(array, (up + 1), endIdx);
+            if (left < (up - 1)) quicksort(array, left, (up - 1));
+            if ((up + 1) < right) quicksort(array, (up + 1), right);
+        } else {
+            Sort.selectionSort(array, left, right + 1);
+        }
+
     }
 
     /**
