@@ -15,8 +15,6 @@
  */
 package ch.hslu.ad.sw12.mergesort;
 
-import ch.hslu.ad.sw10.Sort;
-
 import java.util.Arrays;
 import java.util.concurrent.RecursiveAction;
 
@@ -26,7 +24,7 @@ import java.util.concurrent.RecursiveAction;
 @SuppressWarnings("serial")
 public final class MergesortTask extends RecursiveAction {
 
-    private static final int THRESHOLD = 36_750_000;
+    private static final int THRESHOLD = 100;
     private final int[] array;
     private final int min;
     private final int max;

@@ -15,10 +15,6 @@
  */
 package ch.hslu.ad.sw12.fibo;
 
-import ch.hslu.ad.sw01.part3.Fibonacci;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.concurrent.RecursiveTask;
 
 /**
@@ -44,7 +40,6 @@ public final class FibonacciTask extends RecursiveTask<Long> {
     protected Long compute() {
         long result;
         if (n < THRESHOLD) {
-
             result = DemoFibonacciCalc.fiboIterative(n);
         } else {
             result = concurrent();

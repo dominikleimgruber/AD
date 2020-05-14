@@ -18,15 +18,6 @@ public class Playground {
             if(f == 74_999_999) LOG.info(f);
         });
 
-        /*IntStream.range(0, 300_000_000).forEach( f -> {
-                if(f % 2 == 0){
-                    unsorted500[f] = f * 8 ;
-                }else if(f % 2 == 1) {
-                    unsorted500[f] = f * 5 * (int) Math.pow(-1,f);
-                }
-        });*/
-
-
         long start = System.currentTimeMillis();
         Sort.quicksort(unsorted500.clone());
         long end = System.currentTimeMillis();

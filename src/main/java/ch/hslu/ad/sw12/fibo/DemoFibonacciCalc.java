@@ -65,7 +65,7 @@ public final class DemoFibonacciCalc {
      * @param args not used.
      */
     public static void main(final String[] args) {
-        final int n = 45;
+        final int n = 80;
         final FibonacciTask task = new FibonacciTask(n);
         final ForkJoinPool pool = new ForkJoinPool();
         LOG.info("fibo(" + n + ") start...");
@@ -84,6 +84,6 @@ public final class DemoFibonacciCalc {
         result = fiboRecursive(n);
         end = System.currentTimeMillis();
         LOG.info("Func. recursive = " + result);
-        LOG.info("Func. recursive :  {} sec.", end - start);
+        LOG.info("Func. recursive :  {} msec.", end - start);
     }
 }

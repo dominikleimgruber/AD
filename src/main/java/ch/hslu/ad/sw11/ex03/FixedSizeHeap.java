@@ -21,11 +21,11 @@ public class FixedSizeHeap<T extends Comparable<T>> implements Heap<T> {
         }
 
         T max = (T) heap[0];
-        heap[0] = heap[size - 1];
-        heap[size - 1] = null;
-
-        heapifdown();
         size--;
+        heap[0] = heap[size];
+        heap[size] = null;
+
+        heapifydown();
         return max;
     }
 
@@ -59,8 +59,20 @@ public class FixedSizeHeap<T extends Comparable<T>> implements Heap<T> {
         return size;
     }
 
+    private void heapifyup() {
+        T value = (T) heap[size];
+        int child = size;
+        int parent = parent(child);
 
-    private void heapifdown() {
+        while (value.compareTo((T) heap[parent]) > 0) {
+            heap[child] = heap[parent];
+            heap[parent] = value;
+            child = parent;
+            parent = parent(child);
+        }
+    }
+
+    private void heapifydown() {
         T value = (T) heap[0];
         int parent = 0;
         int biggerIndex;
@@ -91,19 +103,6 @@ public class FixedSizeHeap<T extends Comparable<T>> implements Heap<T> {
     private boolean hasLeft(int parent) {
         int left = leftChild(parent);
         return left < size && heap[left] != null;
-    }
-
-    private void heapifyup() {
-        T value = (T) heap[size];
-        int child = size;
-        int parent = parent(child);
-
-        while (value.compareTo((T) heap[parent]) > 0) {
-            heap[child] = heap[parent];
-            heap[parent] = value;
-            child = parent;
-            parent = parent(child);
-        }
     }
 
     private void exchange(int i, int j) {

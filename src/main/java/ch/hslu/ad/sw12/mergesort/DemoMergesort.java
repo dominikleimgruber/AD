@@ -16,14 +16,13 @@
 package ch.hslu.ad.sw12.mergesort;
 
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.concurrent.ForkJoinPool;
-
-import ch.hslu.ad.sw12.RandomInitTask;
-import ch.hslu.ad.sw12.SumTask;
+import ch.hslu.ad.sw12.array.init.RandomInitTask;
+import ch.hslu.ad.sw12.array.sum.SumTask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Arrays;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * Performance Vergleich der Mergesort-Implementation.
@@ -31,6 +30,8 @@ import org.apache.logging.log4j.Logger;
 public final class DemoMergesort {
 
     private static final Logger LOG = LogManager.getLogger(DemoMergesort.class);
+    private static ForkJoinPool pool;
+    private static int[] array;
 
     /**
      * Privater Konstruktor.
@@ -44,47 +45,47 @@ public final class DemoMergesort {
      * @param args not used.
      */
     public static void main(final String[] args) {
+
+
         final int size = 300_000_000;
-        final int[] array = new int[size];
-        final ForkJoinPool pool = new ForkJoinPool();
+        array = new int[size];
+        pool = new ForkJoinPool();
 
-        LOG.info("Threshold: 1");
-        RandomInitTask initTask = new RandomInitTask(array, 100);
-        pool.invoke(initTask);
-        SumTask sumTask = new SumTask(array);
-        long result = pool.invoke(sumTask);
-        LOG.info("Init. Checksum  : " + result);
+        LOG.info("Threshold: 100");
 
-        //measure Mergesort duration
+        initiallizing();
         long start = System.currentTimeMillis();
         final MergesortTask sortTask = new MergesortTask(array);
         pool.invoke(sortTask);
         long end = System.currentTimeMillis();
         LOG.info("Conc. Mergesort : {} msec.", (end - start));
-        sumTask = new SumTask(array);
-        result = pool.invoke(sumTask);
-        LOG.info("Merge Checksum  : " + result);
+        LOG.info("Merge Checksum  : {}", getSum());
 
-        initTask = new RandomInitTask(array, 100);
-        pool.invoke(initTask);
-        sumTask = new SumTask(array);
-        result = pool.invoke(sumTask);
-        LOG.info("Init. checksum  : " + result);
+        initiallizing();
         start = System.currentTimeMillis();
         Arrays.sort(array);
         end = System.currentTimeMillis();
         LOG.info("Seq. Arrays.sort() : {} msec.", (end - start));
-        initTask = new RandomInitTask(array, 100);
-        pool.invoke(initTask);
-        sumTask = new SumTask(array);
-        result = pool.invoke(sumTask);
-        LOG.info("Init. checksum  : " + result);
+        LOG.info("Arrays.sort Checksum  : {}", getSum());
+
+        initiallizing();
         start = System.currentTimeMillis();
         MergesortRecursive.mergeSort(array);
         end = System.currentTimeMillis();
-        LOG.info("MergesortRec.   : {} msec.",(end - start));
-        sumTask = new SumTask(array);
-        result = pool.invoke(sumTask);
-        LOG.info("Sort checksum   : " + result);
+        LOG.info("MergesortRec.   : {} msec.", (end - start));
+        LOG.info("Sort checksum   : {}", getSum());
     }
+
+    private static void initiallizing() {
+        RandomInitTask initTask = new RandomInitTask(array, 100);
+        pool.invoke(initTask);
+
+        LOG.info("Init. Checksum : {}", getSum());
+    }
+
+    private static long getSum() {
+        SumTask sumTask = new SumTask(array);
+        return pool.invoke(sumTask);
+    }
+
 }

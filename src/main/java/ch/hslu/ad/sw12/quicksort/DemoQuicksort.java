@@ -16,13 +16,13 @@
 package ch.hslu.ad.sw12.quicksort;
 
 
-import java.util.Arrays;
-import java.util.concurrent.ForkJoinPool;
-
-import ch.hslu.ad.sw12.RandomInitTask;
-import ch.hslu.ad.sw12.SumTask;
+import ch.hslu.ad.sw12.array.init.RandomInitTask;
+import ch.hslu.ad.sw12.array.sum.SumTask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Arrays;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * Vergleich von verschiedenen Quicksort-Implementationen.
