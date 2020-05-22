@@ -25,7 +25,7 @@ public final class FibonacciTask extends RecursiveTask<Long> {
 
 
     private final int n;
-    private static final int THRESHOLD = 10;
+    private static final int THRESHOLD = 40;
 
     /**
      * Erzeugt einen Fibonacci Task.

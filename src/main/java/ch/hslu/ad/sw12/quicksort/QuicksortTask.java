@@ -25,7 +25,7 @@ import java.util.concurrent.RecursiveAction;
 @SuppressWarnings("serial")
 public final class QuicksortTask extends RecursiveAction {
 
-    private static final int THRESHOLD = 50;
+    private static final int THRESHOLD = 38_000_000;
     private final int[] array;
     private final int min;
     private final int max;
@@ -50,7 +50,7 @@ public final class QuicksortTask extends RecursiveAction {
         if ((max - min) > THRESHOLD) {
             concurrent();
         } else {
-            Sort.insertionSort2(array, min, max + 1);
+            QuicksortRecursive.quicksort(array, min, max);
         }
     }
 

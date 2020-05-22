@@ -44,29 +44,27 @@ public class QuicksortRecursive {
         int down = right - 1;
         int t = array[right];
         boolean allChecked = false;
-        if ((right - left) > 50) {
-            do {
-                while (array[up] < t) {
-                    up++;
-                }
-                while ((array[down] > t) && (down > up)) {
-                    down--;
-                }
-                if (down > up) {
-                    exchange(array, up, down);
-                    up++;
-                    down--;
-                } else {
-                    allChecked = true;
-                }
-            } while (!allChecked);
-            exchange(array, up, right);
 
-            if (left < (up - 1)) quicksort(array, left, (up - 1));
-            if ((up + 1) < right) quicksort(array, (up + 1), right);
-        } else {
-            Sort.selectionSort(array, left, right + 1);
-        }
+        do {
+            while (array[up] < t) {
+                up++;
+            }
+            while ((array[down] > t) && (down > up)) {
+                down--;
+            }
+            if (down > up) {
+                exchange(array, up, down);
+                up++;
+                down--;
+            } else {
+                allChecked = true;
+            }
+        } while (!allChecked);
+        exchange(array, up, right);
+
+        if (left < (up - 1)) quicksort(array, left, (up - 1));
+        if ((up + 1) < right) quicksort(array, (up + 1), right);
+
 
     }
 

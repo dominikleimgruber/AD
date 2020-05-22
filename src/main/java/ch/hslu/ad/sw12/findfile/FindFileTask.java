@@ -57,7 +57,7 @@ public final class FindFileTask extends CountedCompleter<String> {
                     FindFileTask newDirectory = new FindFileTask(this,regex, file, result);
                     newDirectory.fork();
                 } else if (regex.equalsIgnoreCase(file.getName())) {
-                    result.compareAndSet(null, file.getParentFile().toString());
+                    result.compareAndSet(null, file.getParentFile().getPath());
                     this.quietlyCompleteRoot();
                     break;
                 }
