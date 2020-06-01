@@ -52,7 +52,6 @@ public class Quicksearch {
         final int range = 256;
         final int[] shift = new int[range];
 
-
         for (int i = 0; i < range; i++) {
             shift[i] = m + 1;
         }
